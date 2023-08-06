@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"lib": ["DOM", "ESNext"],
+
+		"target": "ES5",
+		"module": "ES2020",
+		"moduleResolution": "node",
+
+		"strict": true,
+		"noImplicitAny": true,
+		"skipLibCheck": true,
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+
+		"outDir": "./dist",
+		"sourceMap": true,
+
+		"baseUrl": "./src",
+		"paths": {
+			"@i18n/*": ["../i18n/*"],
+		},
+
+		"typeRoots": ["./node_modules/@types"]
+	},
+
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx"
+	]
+}

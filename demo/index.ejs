@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta name="google" content="notranslate" />
+	<meta http-equiv="content-language" content="en" />
+
+	<title><%= htmlWebpackPlugin.options.title %></title>
+
+	<style>
+		iframe#webpack-dev-server-client-overlay {
+			display: none;
+		}
+
+		#editor {
+			border: 1px solid #aaa;
+			box-sizing: content-box;
+			min-height: 100px;
+			padding: 5px;
+		}
+	</style>
+</head>
+<body class="notranslate">
+	<h1>Misty Editor Demo</h1>
+	<div id="editor"></div>
+
+	<%= htmlWebpackPlugin.tags.bodyTags %>
+
+	<script async="false">
+		const editor = document.querySelector('#editor');
+		setTimeout(() => {
+			initMistyEditor(editor, {});
+		}, 1000);
+	</script>
+</body>
+</html>
