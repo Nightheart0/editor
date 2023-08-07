@@ -1,4 +1,16 @@
-export default [
+type Character = {
+	character: string;
+	latexCommand?: string;
+	popular?: boolean;
+	noWrite?: boolean;
+};
+
+type Group = {
+	label: string;
+	characters: Character[];
+};
+
+const specialCharacterGroups: Group[] = [
 	{
 		label: 'Basic Characters and Greek Letters',
 		characters: [
@@ -110,4 +122,7 @@ export default [
 			{ character: '∇', latexCommand: '\\nabla' },
 		],
 	},
-]
+];
+
+export { specialCharacterGroups };
+export type { Character, Group };
