@@ -7,9 +7,15 @@ function insertAtCursor(nodeOrString: Node | string) {
 		range.deleteContents();
 
 		if (typeof nodeOrString === 'string') {
-			range.insertNode(document.createTextNode(nodeOrString));
+			const textNode = document.createTextNode(nodeOrString);
+
+			range.insertNode(textNode);
+			range.setStartAfter(textNode);
+			range.setEndAfter(textNode);
 		} else {
 			range.insertNode(nodeOrString);
+			range.setStartAfter(nodeOrString);
+			range.setEndAfter(nodeOrString);
 		}
 	}
 }
