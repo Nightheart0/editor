@@ -54,7 +54,16 @@ module.exports = {
 
 	devtool: 'inline-source-map',
 	devServer: {
-		static: './dist',
+		static: [
+			{
+				directory: path.join(__dirname, './assets/fonts'),
+				publicPath: '/fonts',
+			},
+			{
+				directory: path.join(__dirname, './assets/sounds'),
+				publicPath: '/sounds',
+			},
+		],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
