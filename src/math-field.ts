@@ -37,6 +37,27 @@ function newMathField($editorDiv: JQuery<HTMLDivElement>) {
 			if (mfe.value === '') $(mfe).parent().remove();
 		}
 	});
+	mfe.addEventListener('beforeinput', (e) => {
+		if (e.inputType === 'insertLineBreak') {
+			e.preventDefault();
+
+			$editorDiv.get(0)!.focus();
+
+			const selection = window.getSelection();
+			if (selection === null) return;
+
+			const range = selection.getRangeAt(0);
+			range.setStartAfter(span);
+			range.setEndAfter(span);
+
+			if (mfe.value === '') {
+				$(mfe).parent().remove();
+			} else {
+				utils.insertAtCursor(document.createElement('br'));
+				newMathField($editorDiv);
+			}
+		};
+	});
 
 	mfe.addEventListener('move-out', (e) => focusLost(mfe, e));
 	mfe.addEventListener('focus-out', (e) => focusLost(mfe, e));
