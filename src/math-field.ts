@@ -15,6 +15,28 @@ function newMathField($editorDiv: JQuery<HTMLDivElement>) {
 			setTimeout(() => mfe.focus(), 0);
 		}
 	});
+	mfe.addEventListener('keydown', (e) => {
+		if (e.code === 'Escape') {
+			e.preventDefault();
+			e.stopPropagation();
+
+			mfe.readOnly = true;
+
+			$editorDiv.get(0)!.focus();
+
+			const selection = window.getSelection();
+			if (selection === null) return;
+
+			const range = selection.getRangeAt(0);
+			range.setStartAfter(span);
+			range.setEndAfter(span);
+
+			const value = mfe.value;
+			if (value.endsWith('\\')) mfe.setValue(value.slice(0, -1), { silenceNotifications: true });
+
+			if (mfe.value === '') $(mfe).parent().remove();
+		}
+	});
 
 	mfe.addEventListener('move-out', (e) => focusLost(mfe, e));
 	mfe.addEventListener('focus-out', (e) => focusLost(mfe, e));
@@ -28,7 +50,7 @@ function newMathField($editorDiv: JQuery<HTMLDivElement>) {
 	setTimeout(() => mfe.focus(), 0);
 }
 
-function focusLost(mfElement: ML.MathfieldElement, e: CustomEvent<ML.MoveOutEvent | ML.FocusOutEvent> | FocusEvent) {
+function focusLost(mfElement: ML.MathfieldElement, e: CustomEvent<ML.MoveOutEvent | ML.FocusOutEvent> | FocusEvent | KeyboardEvent) {
 	e.preventDefault();
 
 	mfElement.readOnly = true;
