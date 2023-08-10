@@ -22,11 +22,36 @@
 			min-height: 100px;
 			padding: 5px;
 		}
+
+		article {
+			padding: 0 20px;
+			display: block;
+		}
+
+		section {
+			background: #fff;
+    		box-shadow: 0 0 1px 1px #c6e6f2;
+    		margin: 0 auto;
+    		max-width: 870px;
+    		padding: 2em;
+		}
+
+		#spacer {
+			height: 200px;
+		}
 	</style>
 </head>
 <body class="notranslate">
-	<h1>Misty Editor Demo</h1>
-	<div id="editor"></div>
+	<article>
+		<section>
+			<div id="spacer"></div>
+			<h1>Misty Editor Demo</h1>
+			<div id="editor"></div>
+		</section>
+	</article>
+	<footer>
+
+	</footer>
 
 	<%= htmlWebpackPlugin.tags.bodyTags %>
 
