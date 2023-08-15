@@ -4,6 +4,7 @@ import * as ML from 'mathlive';
 import { newMathField } from './math-field';
 import { init as initToolbars } from './toolbars';
 import { locales } from './locales';
+import * as clipboard from './clipboard';
 
 import toolbarStyles from './toolbars.module.css';
 
@@ -58,6 +59,9 @@ function init(div: HTMLDivElement, options: MistyEditorOptions) {
 		})
 		.on('blur', (e) => {
 			onBlur($(div));
+		})
+		.on('paste', (e) => {
+			clipboard.onPaste($(div) as JQuery<HTMLDivElement>, e);
 		});
 }
 
