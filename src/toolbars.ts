@@ -94,7 +94,7 @@ function initSpecialCharacterToolbar($toolbar: JQuery<HTMLDivElement>) {
 			const command = e.currentTarget.dataset.command;
 			const useWrite = e.currentTarget.dataset.usewrite === 'true';
 
-			if (window.mistyEditor.$currentEditor !== null) {
+			if (window.editor2.$currentEditor !== null) {
 				insertAtCursor(character);
 			}
 
@@ -140,8 +140,8 @@ function initMathToolbar($mathToolbar: JQuery<HTMLDivElement>) {
 
 function initInsertEquation($insertEquation: JQuery<HTMLButtonElement>) {
 	$insertEquation.on('mousedown', (e) => {
-		if (window.mistyEditor.$currentEditor === null) return;
-		newMathField(window.mistyEditor.$currentEditor);
+		if (window.editor2.$currentEditor === null) return;
+		newMathField(window.editor2.$currentEditor);
 	});
 }
 

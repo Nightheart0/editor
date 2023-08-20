@@ -11,7 +11,7 @@ import toolbarStyles from './toolbars.module.css';
 /**
  * The initial state
  */
-const initialState: MistyEditorState = {
+const initialState: EditorState = {
 	focus: {
 		richTextEditor: false,
 		mathEquation: false,
@@ -24,15 +24,15 @@ const initialState: MistyEditorState = {
 	firstCall: true,
 };
 
-const defaultOptions: MistyEditorOptions = {
+const defaultOptions: EditorOptions = {
 	locale: 'en',
 };
 
-window.mistyEditor = window.mistyEditor || initialState;
-const state = window.mistyEditor;
+window.editor2 = window.editor2 || initialState;
+const state = window.editor2;
 
-function init(div: HTMLDivElement, options: MistyEditorOptions) {
-	const strings = locales[options.locale ?? defaultOptions.locale as MistyEditorSupportedLocale];
+function init(div: HTMLDivElement, options: EditorOptions) {
+	const strings = locales[options.locale ?? defaultOptions.locale as EditorSupportedLocale];
 
 	if (state.firstCall) {
 		state.firstCall = false;

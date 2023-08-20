@@ -1,7 +1,7 @@
 declare module '*.css';
 declare module '*.scss';
 
-type MistyEditorState = {
+type EditorState = {
 	focus: {
 		richTextEditor: boolean;
 		mathEquation: boolean;
@@ -14,18 +14,18 @@ type MistyEditorState = {
 	firstCall: boolean;
 };
 
-type MistyEditorSupportedLocale = 'en';
+type EditorSupportedLocale = 'en';
 
-type MistyEditorOptions = {
-	locale?: MistyEditorSupportedLocale;
+type EditorOptions = {
+	locale?: EditorSupportedLocale;
 };
 
 interface Window {
-	mistyEditor: MistyEditorState;
+	editor2: EditorState;
 }
 
 declare global {
 	interface Window {
-		mistyEditor: MistyEditorState;
+		editor2: EditorState;
 	}
 }
