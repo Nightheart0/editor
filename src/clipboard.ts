@@ -2,7 +2,7 @@ import { insertAtCursor } from './utils';
 
 import editorStyles from './editor.module.css'
 
-const fileTypes = ['image/png', 'image/jpeg'];
+const fileTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
 
 const file2Base64 = (file: File): Promise<string> => {
 	return new Promise<string> ((resolve, reject)=> {
