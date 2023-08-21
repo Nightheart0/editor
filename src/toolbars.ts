@@ -71,7 +71,7 @@ function init() {
 const specialCharacterToButton = (char: SpecialCharacter) =>
 	`<button class="${styles.button} ${styles['button-grid']}${
 		char.popular ? ` ${styles['characters-popular']}` : ''
-	}" ${char.latexCommand ? `data-command="${char.latexCommand}"` : ''} data-usewrite="${!char.noWrite}">${
+	}" ${char.latexCommand ? `data-command="${char.latexCommand}"` : ''} data-usewrite="${!char.noWrite}" data-buttontype="character">${
 		char.character
 	}</button>`;
 
@@ -79,6 +79,15 @@ const popularInGroup = (group: SpecialCharacterGroup) => group.characters.filter
 
 function initSpecialCharacterToolbar($toolbar: JQuery<HTMLDivElement>) {
 	const gridButtonWidth = 35 /* px */;
+	const $toolsRow = $(`<div class="${styles['toolbar-characters-group']}" style="width: ${24 * gridButtonWidth}px"></div>`);
+
+	$toolbar
+		.find('[data-js="charactersList"]')
+		.append($toolsRow);
+
+	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']}" data-command="Bold">
+		B
+	</button>`);
 
 	$toolbar
 		.find('[data-js="charactersList"]')
@@ -88,6 +97,9 @@ function initSpecialCharacterToolbar($toolbar: JQuery<HTMLDivElement>) {
 			) as any,
 		)
 		.on('mousedown', 'button', (e) => {
+			const buttonType = e.currentTarget.dataset.buttontype;
+			if (buttonType !== 'character') return;
+
 			e.preventDefault();
 
 			const character: string = e.currentTarget.innerText;
