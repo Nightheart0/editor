@@ -8,6 +8,8 @@ import latexCommandsWithSvg from './latex-commands-svg';
 
 import styles from './toolbars.module.css';
 
+const gridButtonWidth = 35 /* px */;
+
 function init() {
 	const $toolbar = $(`
 	<div class="${styles.tools}" data-js="tools">
@@ -53,7 +55,9 @@ function init() {
 	const $insertEquation = $toolbar.find('[data-js="newEquation"]');
 	const $mathToolbar = $toolbar.find('[data-js="mathToolbar"]');
 
+	initToolsToolbar($toolbar as JQuery<HTMLDivElement>);
 	initSpecialCharacterToolbar($toolbar as JQuery<HTMLDivElement>);
+	bindToolbarButtonClick($toolbar as JQuery<HTMLDivElement>);
 	//initMathToolbar($mathToolbar as JQuery<HTMLDivElement>);
 	initInsertEquation($insertEquation as JQuery<HTMLButtonElement>);
 
@@ -78,9 +82,17 @@ const specialCharacterToButton = (char: SpecialCharacter) =>
 const popularInGroup = (group: SpecialCharacterGroup) => group.characters.filter((character: SpecialCharacter) => character.popular).length;
 
 function initSpecialCharacterToolbar($toolbar: JQuery<HTMLDivElement>) {
-	const gridButtonWidth = 35 /* px */;
-	const $toolsRow = $(`<div class="${styles['toolbar-characters-group']}" style="width: ${24 * gridButtonWidth}px"></div>`);
+	$toolbar
+		.find('[data-js="charactersList"]')
+		.append(
+			specialCharacterGroups.map(
+				(group) => `<div class="${styles['toolbar-characters-group']}" style="width: ${popularInGroup(group) * gridButtonWidth}px">${group.characters.map(specialCharacterToButton).join('')}</div>`,
+			) as any,
+		);
+}
 
+function initToolsToolbar($toolbar: JQuery<HTMLDivElement>) {
+	const $toolsRow = $(`<div class="${styles['toolbar-characters-group']}" style="width: ${24 * gridButtonWidth}px"></div>`);
 	$toolbar
 		.find('[data-js="charactersList"]')
 		.append($toolsRow);
@@ -88,31 +100,23 @@ function initSpecialCharacterToolbar($toolbar: JQuery<HTMLDivElement>) {
 	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']}" data-command="Bold">
 		B
 	</button>`);
+}
 
-	$toolbar
-		.find('[data-js="charactersList"]')
-		.append(
-			specialCharacterGroups.map(
-				(group) => `<div class="${styles['toolbar-characters-group']}" style="width: ${popularInGroup(group) * gridButtonWidth}px">${group.characters.map(specialCharacterToButton).join('')}</div>`,
-			) as any,
-		)
-		.on('mousedown', 'button', (e) => {
-			const buttonType = e.currentTarget.dataset.buttontype;
-			if (buttonType !== 'character') return;
+function bindToolbarButtonClick($toolbar: JQuery<HTMLDivElement>) {
+	$toolbar.on('mousedown', 'button', (e) => {
+		const buttonType = e.currentTarget.dataset.buttontype;
+		if (buttonType !== 'character') return;
 
-			e.preventDefault();
+		e.preventDefault();
 
-			const character: string = e.currentTarget.innerText;
-			const command = e.currentTarget.dataset.command;
-			const useWrite = e.currentTarget.dataset.usewrite === 'true';
+		const character: string = e.currentTarget.innerText;
+		const command = e.currentTarget.dataset.command;
+		const useWrite = e.currentTarget.dataset.usewrite === 'true';
 
-			if (window.editor2.$currentEditor !== null) {
-				insertAtCursor(character);
-			}
-
-			//if (hasAnswerFocus()) window.document.execCommand('insertText', false, character)
-			//else mathEditor.insertMath(command || character, undefined, useWrite)
-        })
+		if (window.editor2.$currentEditor !== null) {
+			insertAtCursor(character);
+		}
+	});
 }
 
 function initMathToolbar($mathToolbar: JQuery<HTMLDivElement>) {
