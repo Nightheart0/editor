@@ -98,7 +98,7 @@ function initToolsToolbar($toolbar: JQuery<HTMLDivElement>) {
 		.find('[data-js="charactersList"]')
 		.append($toolsRow);
 
-	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']}" data-command="Bold">
+	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']}" data-command="Bold" data-buttontype="bold">
 		B
 	</button>`);
 }
@@ -111,6 +111,8 @@ function bindToolbarButtonClick($toolbar: JQuery<HTMLDivElement>) {
 
 		if (buttonType === 'character') {
 			richText.insertCharacterButonClick(e);
+		} else if (buttonType === 'bold') {
+			richText.toggleBold();
 		}
 	});
 }
