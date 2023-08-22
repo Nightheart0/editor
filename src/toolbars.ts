@@ -5,6 +5,7 @@ import { insertAtCursor } from './utils';
 import { specialCharacterGroups} from './special-characters';
 import type { Character as SpecialCharacter, Group as SpecialCharacterGroup } from './special-characters';
 import latexCommandsWithSvg from './latex-commands-svg';
+import * as richText from './rich-text';
 
 import styles from './toolbars.module.css';
 
@@ -104,17 +105,12 @@ function initToolsToolbar($toolbar: JQuery<HTMLDivElement>) {
 
 function bindToolbarButtonClick($toolbar: JQuery<HTMLDivElement>) {
 	$toolbar.on('mousedown', 'button', (e) => {
-		const buttonType = e.currentTarget.dataset.buttontype;
-		if (buttonType !== 'character') return;
-
 		e.preventDefault();
 
-		const character: string = e.currentTarget.innerText;
-		const command = e.currentTarget.dataset.command;
-		const useWrite = e.currentTarget.dataset.usewrite === 'true';
+		const buttonType: string = e.currentTarget.dataset.buttontype;
 
-		if (window.editor2.$currentEditor !== null) {
-			insertAtCursor(character);
+		if (buttonType === 'character') {
+			richText.insertCharacterButonClick(e);
 		}
 	});
 }
