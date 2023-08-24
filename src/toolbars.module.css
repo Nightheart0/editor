@@ -181,6 +181,12 @@
 	display: inline-block;
 }
 
+.toolbar-tool > svg {
+	margin: auto;
+	max-height: 85%;
+	max-width: 85%;
+}
+
 .characters-expand-collapse {
 	display: inline-block;
 	font-family: 'SansSerif', serif;
