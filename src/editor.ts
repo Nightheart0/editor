@@ -5,6 +5,7 @@ import { newMathField } from './math-field';
 import { init as initToolbars } from './toolbars';
 import { locales } from './locales';
 import * as clipboard from './clipboard';
+import * as utils from './utils';
 
 import toolbarStyles from './toolbars.module.css';
 
@@ -46,6 +47,7 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 			spellcheck: false,
 			'data-js': 'mistyeditor',
 		})
+		.append(document.createElement('br'))
 		.addClass('rich-text-editor')
 		.on('keydown', (e) => {
 			if (e.ctrlKey && e.code === 'KeyE') {
@@ -53,12 +55,21 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 
 				newMathField($(div));
 			}
+
+			if (e.code === 'Enter') {
+				e.preventDefault();
+				utils.insertAtCursor(document.createElement('br'));
+			}
 		})
 		.on('focus', (e) => {
 			onFocus($(div));
 		})
 		.on('blur', (e) => {
 			onBlur($(div));
+		})
+		.on('input', (e) => {
+			if (div.lastChild === null) div.appendChild(document.createElement('br'));
+			if (div.lastChild!.nodeName !== 'BR') div.appendChild(document.createElement('br'));
 		})
 		.on('paste', (e) => {
 			clipboard.onPaste($(div) as JQuery<HTMLDivElement>, e);
