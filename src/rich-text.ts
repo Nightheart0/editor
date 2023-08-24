@@ -18,8 +18,15 @@ function toggleBold() {
 		if (selection.anchorNode?.parentElement?.tagName === 'SPAN' && selection.anchorNode?.parentElement?.classList?.contains(styles.bold)) {
 			const parent = selection.anchorNode.parentElement;
 
-			if (parent.textContent && range.startOffset === parent.textContent.length - 1) {
-				parent.insertAdjacentText('afterend', new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string);
+			if (parent.textContent && (range.startOffset === parent.textContent.length)) {
+				const spanElement = document.createElement('span');
+				spanElement.appendChild(document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string));
+
+				parent.insertAdjacentElement('afterend', spanElement);
+
+				range.setStartAfter(spanElement);
+				range.setEndAfter(spanElement);
+				range.collapse(true);
 			}
 		} else {
 			const span = document.createElement('span');
