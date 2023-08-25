@@ -6,6 +6,7 @@ import { init as initToolbars } from './toolbars';
 import { locales } from './locales';
 import * as clipboard from './clipboard';
 import * as utils from './utils';
+import * as richText from './rich-text';
 
 import toolbarStyles from './toolbars.module.css';
 
@@ -58,7 +59,7 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 
 			if (e.code === 'Enter') {
 				e.preventDefault();
-				utils.insertAtCursor(document.createElement('br'));
+				richText.insertLinebreak();
 			}
 		})
 		.on('focus', (e) => {

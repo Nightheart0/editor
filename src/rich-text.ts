@@ -2,6 +2,11 @@ import * as utils from './utils';
 
 import styles from './text-styles.module.css';
 
+function insertLinebreak() {
+	utils.insertAtCursor(document.createElement('br'));
+	// TODO: Add indentation
+}
+
 function toggleBold() {
 	const selection = document.getSelection();
 	if (selection === null) return;
@@ -53,4 +58,4 @@ function insertCharacterButonClick(e: JQuery.MouseDownEvent) {
 	}
 }
 
-export { insertCharacterButonClick, toggleBold };
+export { insertLinebreak, insertCharacterButonClick, toggleBold };
