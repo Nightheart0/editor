@@ -28,6 +28,12 @@
 			display: block;
 		}
 
+		@media (min-width: 900px) {
+			article {
+				margin-top: 50px;
+			}
+		}
+
 		section {
 			background: #fff;
     		box-shadow: 0 0 1px 1px #c6e6f2;
@@ -36,19 +42,59 @@
     		padding: 2em;
 		}
 
-		#spacer {
-			height: 200px;
+		#help {
+			min-height: 200px;
+
+			display: flex;
+			flex-direction: row;
+		}
+
+		#table {
+			padding-left: 1rem;
+			display: grid;
+			grid-template-columns: 50% 50%;
+			grid-template-rows: repeat(10, min-content);
+			justify-items: left;
+			align-items: center;
 		}
 	</style>
 </head>
 <body class="notranslate">
 	<article>
 		<section>
-			<div id="spacer"></div>
-			<h1>Misty Editor Demo</h1>
+			<h1>Sunstar's Editor Demo</h1>
+			<strong>Version 0.0.1-test1 (August 26, 2023)</strong>
+			<hr>
+
+			<div id="help">
+				<div style="width: 55%;">
+					<ul>
+						<li>A math and rich text editor based on the Matriculation Examination Board's rich-text-editor.</li>
+						<li>This is still very early in development. Expect bugs and unfinished features.</li>
+						<li>The initial test release was released on August 26, 2023.</li>
+						<li>You can follow the development <a href="https://github.com/SunstarVIII/editor" target="_blank">on the project's GitHub repo page</a>.</li>
+					</ul>
+				</div>
+				<div style="width: 45%;" id="table">
+					<p>Paste an image from the clipboard</p>
+					<p>Ctrl-V</p>
+					<p>Insert an equation using MathLive</p>
+					<p>Ctrl-E</p>
+					<strong>In the MathLive editor</strong>
+					<p></p>
+					<p>Close the math editor (deleting it if empty)</p>
+					<p>Esc</p>
+					<p>Continue on a new line</p>
+					<p>Enter</p>
+					<p>Write formulae using LaTeX</p>
+					<p></p>
+				</div>
+			</div>
+
 			<div id="editor"></div>
 		</section>
 	</article>
+
 	<footer>
 
 	</footer>

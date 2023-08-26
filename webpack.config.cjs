@@ -67,7 +67,7 @@ module.exports = {
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			title: 'Misty Editor Demo',
+			title: 'Sunstar\'s Editor Demo',
 			template: './demo/index.ejs',
 		}),
 	],
