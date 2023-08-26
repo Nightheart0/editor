@@ -7,12 +7,12 @@
 	padding: 0;
 }
 
-.math-editor-focus .button[data-command]:hover:after,
-.button-action[data-command]:hover:after {
+.button[data-tooltip]:hover:after,
+.button-action[data-tooltip]:hover:after {
 	background: #359bb7;
 	border-radius: 5px;
 	color: #fff;
-	content: attr(data-command);
+	content: attr(data-tooltip);
 	letter-spacing: 1.5px;
 	font-size: 16px;
 	left: 50%;
@@ -24,8 +24,8 @@
 	white-space: nowrap;
 }
 
-.math-editor-focus .button[data-command]:hover:before,
-.button-action[data-command]:hover:before {
+.button[data-tooltip]:hover:before,
+.button-action[data-tooltip]:hover:before {
 	display: inline-block;
 	border: solid;
 	border-color: #359bb7 transparent;
@@ -38,8 +38,8 @@
 	margin-left: -6px;
 }
 
-.button[data-command]:after:hover,
-.button[data-command]:before:hover {
+.button[data-tooltip]:after:hover,
+.button[data-tooltip]:before:hover {
 	display: none;
 }
 
