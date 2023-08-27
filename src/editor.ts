@@ -55,6 +55,10 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 				e.preventDefault();
 
 				newMathField($(div));
+			} else if (e.ctrlKey && e.code === 'KeyB') {
+				e.preventDefault();
+
+				richText.toggleBold();
 			}
 
 			if (e.code === 'Enter') {
