@@ -23,7 +23,15 @@ function toggleBold() {
 		if (selection.anchorNode?.parentElement?.tagName === 'SPAN' && selection.anchorNode?.parentElement?.classList?.contains(styles.bold)) {
 			const parent = selection.anchorNode.parentElement;
 
-			if (parent.textContent && (range.startOffset === parent.textContent.length)) {
+			if (parent.textContent === null) {
+				parent.remove();
+
+				return;
+			}
+
+			const textContent = parent.textContent;
+
+			if (range.startOffset === textContent.length) {
 				const spanElement = document.createElement('span');
 				spanElement.appendChild(document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string));
 
@@ -32,6 +40,30 @@ function toggleBold() {
 				range.setStartAfter(spanElement);
 				range.setEndAfter(spanElement);
 				range.collapse(true);
+			} else {
+				const contentBefore = textContent.substring(0, range.startOffset);
+				const contentAfter = textContent.substring(range.startOffset);
+
+				const spanBefore = document.createElement('span');
+				spanBefore.classList.add(parent.classList.value);
+				spanBefore.textContent = contentBefore;
+
+				const newSpan = document.createElement('span');
+				newSpan.classList.add(parent.classList.value);
+				newSpan.classList.remove(styles.bold);
+				newSpan.appendChild(document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string));
+
+				const spanAfter = document.createElement('span');
+				spanAfter.classList.add(parent.classList.value);
+				spanAfter.textContent = contentAfter;
+
+				parent.insertAdjacentElement('afterend', spanBefore);
+				parent.remove();
+				spanBefore.insertAdjacentElement('afterend', newSpan);
+				newSpan.insertAdjacentElement('afterend', spanAfter);
+
+				range.selectNodeContents(newSpan);
+				range.collapse();
 			}
 		} else {
 			const span = document.createElement('span');
