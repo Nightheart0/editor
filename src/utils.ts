@@ -50,18 +50,64 @@ function removeClassFromSelection(selection: Selection, cssClass: string): void 
 	if (selection.anchorNode?.nodeName !== '#text' || selection.focusNode?.nodeName !== '#text') return;
 	if (selection.anchorNode.parentElement === null || selection.focusNode.parentElement === null) return;
 
+	const range = selection.getRangeAt(0);
+
 	if (selection.anchorNode.parentElement === selection.focusNode.parentElement && selection.anchorNode.parentElement.nodeName.toLowerCase() === 'span') {
 		const span = selection.anchorNode.parentElement;
 
 		if (span.textContent == null) return;
 
-		if (span.classList.contains(cssClass)) {
-			if (span.classList.length === 1) {
-				span.insertAdjacentText('beforebegin', span.textContent);
-				span.remove();
-			} else {
-				span.classList.remove(cssClass);
+		if (range.startOffset === 0 && range.endOffset === span.textContent.length) {
+			if (span.classList.contains(cssClass)) {
+				if (span.classList.length === 1) {
+					span.insertAdjacentText('beforebegin', span.textContent);
+					span.remove();
+				} else {
+					span.classList.remove(cssClass);
+				}
 			}
+		} else {
+			const textBefore = span.textContent.substring(0, range.startOffset);
+			const textInRange = span.textContent.substring(range.startOffset, range.endOffset);
+			const textAfter = span.textContent.substring(range.endOffset);
+
+			const oldClasses = span.classList.value;
+
+			let textBeforeSpan: HTMLSpanElement | null = null;
+			if (textBefore.length > 0) {
+				textBeforeSpan = document.createElement('span');
+
+				textBeforeSpan.classList.add(oldClasses);
+				textBeforeSpan.textContent = textBefore;
+
+				span.insertAdjacentElement('afterend', textBeforeSpan);
+			}
+
+			const newSpan = document.createElement('span');
+
+			if (span.classList.length > 1) {
+				newSpan.classList.add(oldClasses);
+				newSpan.classList.remove(cssClass);
+			}
+			newSpan.innerText = textInRange;
+
+			if (textBeforeSpan !== null) {
+				textBeforeSpan.insertAdjacentElement('afterend', newSpan);
+			} else {
+				span.insertAdjacentElement('afterend', newSpan);
+			}
+
+			if (textAfter.length > 0) {
+				const textAfterSpan = document.createElement('span');
+
+				textAfterSpan.classList.add(oldClasses);
+				textAfterSpan.textContent = textAfter;
+
+				newSpan.insertAdjacentElement('afterend', textAfterSpan);
+			}
+
+			span.remove();
+			range.selectNodeContents(newSpan);
 		}
 	}
 }
