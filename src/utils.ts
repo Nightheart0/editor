@@ -129,4 +129,74 @@ function selectionHasClass(selection: Selection, cssClass: string): boolean | nu
 	return null;
 }
 
-export { insertAtCursor, addClassToSelection, removeClassFromSelection, selectionHasClass };
+function toggleStyle(selection: Selection, cssClass: string) {
+	if (selection.type === 'Range') {
+		if (selectionHasClass(selection, cssClass)) {
+			removeClassFromSelection(selection, cssClass);
+		} else {
+			addClassToSelection(selection, cssClass);
+		}
+	} else if (selection.type === 'Caret') {
+		const range = selection.getRangeAt(0);
+
+		if (selection.anchorNode?.parentElement?.tagName === 'SPAN' && selection.anchorNode?.parentElement?.classList?.contains(cssClass)) {
+			const parent = selection.anchorNode.parentElement;
+
+			if (parent.textContent === null) {
+				parent.remove();
+
+				return;
+			}
+
+			const textContent = parent.textContent;
+
+			if (range.startOffset === textContent.length) {
+				const spanElement = document.createElement('span');
+				spanElement.appendChild(document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string));
+
+				parent.insertAdjacentElement('afterend', spanElement);
+
+				range.setStartAfter(spanElement);
+				range.setEndAfter(spanElement);
+				range.collapse(true);
+			} else {
+				const contentBefore = textContent.substring(0, range.startOffset);
+				const contentAfter = textContent.substring(range.startOffset);
+
+				const spanBefore = document.createElement('span');
+				spanBefore.classList.add(parent.classList.value);
+				spanBefore.textContent = contentBefore;
+
+				const newSpan = document.createElement('span');
+				newSpan.classList.add(parent.classList.value);
+				newSpan.classList.remove(cssClass);
+				newSpan.appendChild(document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string));
+
+				const spanAfter = document.createElement('span');
+				spanAfter.classList.add(parent.classList.value);
+				spanAfter.textContent = contentAfter;
+
+				parent.insertAdjacentElement('afterend', spanBefore);
+				parent.remove();
+				spanBefore.insertAdjacentElement('afterend', newSpan);
+				newSpan.insertAdjacentElement('afterend', spanAfter);
+
+				range.selectNodeContents(newSpan);
+				range.collapse();
+			}
+		} else {
+			const span = document.createElement('span');
+
+			span.className = cssClass;
+			span.appendChild(document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string));
+
+			insertAtCursor(span);
+
+			range.selectNodeContents(span);
+
+			span.focus();
+		}
+	}
+}
+
+export { insertAtCursor, addClassToSelection, removeClassFromSelection, selectionHasClass, toggleStyle };
