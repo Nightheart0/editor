@@ -51,14 +51,26 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 		.append(document.createElement('br'))
 		.addClass('rich-text-editor')
 		.on('keydown', (e) => {
-			if (e.ctrlKey && e.code === 'KeyE') {
-				e.preventDefault();
+			if (e.ctrlKey) {
+				switch (e.code) {
+					case 'KeyE':
+						e.preventDefault();
+						newMathField($(div));
 
-				newMathField($(div));
-			} else if (e.ctrlKey && e.code === 'KeyB') {
-				e.preventDefault();
+						break;
+					case 'KeyB':
+						e.preventDefault();
+						richText.toggleBold();
 
-				richText.toggleBold();
+						break;
+					case 'KeyI':
+						e.preventDefault();
+						richText.toggleItalic();
+
+						break;
+					default:
+						// Do nothing
+				}
 			}
 
 			if (e.code === 'Enter') {

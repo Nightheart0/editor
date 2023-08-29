@@ -101,7 +101,7 @@ function initToolsToolbar($toolbar: JQuery<HTMLDivElement>) {
 	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="bold" data-tooltip="Bold (Ctrl+B)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M295.771-215.001v-529.998h199.536q61.769 0 106.423 39.692 44.653 39.692 44.653 98.692 0 35.692-20.038 67.115-20.039 31.423-56.193 47.654v4.461q44.154 12.846 69.116 48.462 24.961 35.615 24.961 77.923 0 61.076-47.307 103.537-47.307 42.462-114.23 42.462H295.771ZM356-268.307h142.461q39.923 0 72.347-26.731 32.423-26.731 32.423-70.501 0-42.769-32.231-69.5t-72.154-26.731H356v193.463Zm0-244.308h135.23q38.077 0 67.039-25.307 28.962-25.308 28.962-64.539 0-38.462-28.769-64.462-28.77-26.001-67.232-26.001H356v180.309Z"/></svg>
 	</button>`);
-	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="italic" data-tooltip="Italic">
+	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="italic" data-tooltip="Italic (Ctrl+I)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M233.231-214.386v-57.69h133.616L510.463-693H358.386v-57.691h351.536V-693H573.999L430.768-272.076h154v57.69H233.231Z"/></svg>
 	</button>`);
 	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="underline" data-tooltip="Underline">
@@ -135,6 +135,8 @@ function bindToolbarButtonClick($toolbar: JQuery<HTMLDivElement>) {
 			richText.insertCharacterButonClick(e);
 		} else if (command === 'bold') {
 			richText.toggleBold();
+		} else if (command === 'italic') {
+			richText.toggleItalic();
 		}
 	});
 }

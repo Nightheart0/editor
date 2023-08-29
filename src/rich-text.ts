@@ -14,6 +14,13 @@ function toggleBold() {
 	utils.toggleStyle(selection, styles.bold);
 }
 
+function toggleItalic() {
+	const selection = document.getSelection();
+	if (selection === null) return;
+
+	utils.toggleStyle(selection, styles.italic);
+}
+
 function insertCharacterButonClick(e: JQuery.MouseDownEvent) {
 	const character: string = e.currentTarget.innerText;
 	//const command = e.currentTarget.dataset.command;
@@ -24,4 +31,4 @@ function insertCharacterButonClick(e: JQuery.MouseDownEvent) {
 	}
 }
 
-export { insertLinebreak, insertCharacterButonClick, toggleBold };
+export { insertLinebreak, insertCharacterButonClick, toggleBold, toggleItalic };
