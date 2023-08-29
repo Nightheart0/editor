@@ -137,6 +137,14 @@ function bindToolbarButtonClick($toolbar: JQuery<HTMLDivElement>) {
 			richText.toggleBold();
 		} else if (command === 'italic') {
 			richText.toggleItalic();
+		} else if (command === 'underline') {
+			richText.toggleUnderline();
+		} else if (command === 'strikethrough') {
+			richText.toggleStrikethrough();
+		} else if (command === 'subscript') {
+			richText.toggleSubscript();
+		} else if (command === 'superscript') {
+			richText.toggleSuperscript();
 		}
 	});
 }

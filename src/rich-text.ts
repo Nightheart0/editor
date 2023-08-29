@@ -21,6 +21,49 @@ function toggleItalic() {
 	utils.toggleStyle(selection, styles.italic);
 }
 
+function toggleUnderline() {
+	const selection = document.getSelection();
+	if (selection === null) return;
+
+	utils.toggleStyle(selection, styles.underline);
+}
+
+function toggleStrikethrough() {
+	const selection = document.getSelection();
+	if (selection === null) return;
+
+	utils.toggleStyle(selection, styles.strikethrough);
+}
+
+function toggleSubscript() {
+	const selection = document.getSelection();
+	if (selection === null) return;
+
+	utils.toggleStyle(selection, styles.subscript);
+}
+
+function toggleSuperscript() {
+	const selection = document.getSelection();
+	if (selection === null) return;
+
+	utils.toggleStyle(selection, styles.superscript);
+}
+
+function increaseIndent(editorDiv: HTMLDivElement, selection: Selection) {
+	const range = selection.getRangeAt(0);
+	const startContainer = range.startContainer;
+
+	if (startContainer === editorDiv) {
+		const startOffset = range.startOffset;
+	} else if (startContainer.parentNode === editorDiv) {
+
+	}
+}
+
+function decreaseIndent() {
+
+}
+
 function insertCharacterButonClick(e: JQuery.MouseDownEvent) {
 	const character: string = e.currentTarget.innerText;
 	//const command = e.currentTarget.dataset.command;
@@ -31,4 +74,14 @@ function insertCharacterButonClick(e: JQuery.MouseDownEvent) {
 	}
 }
 
-export { insertLinebreak, insertCharacterButonClick, toggleBold, toggleItalic };
+export {
+	insertLinebreak,
+	insertCharacterButonClick,
+	
+	toggleBold,
+	toggleItalic,
+	toggleUnderline,
+	toggleStrikethrough,
+	toggleSubscript,
+	toggleSuperscript,
+};
