@@ -104,16 +104,16 @@ function initToolsToolbar($toolbar: JQuery<HTMLDivElement>) {
 	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="italic" data-tooltip="Italic (Ctrl+I)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M233.231-214.386v-57.69h133.616L510.463-693H358.386v-57.691h351.536V-693H573.999L430.768-272.076h154v57.69H233.231Z"/></svg>
 	</button>`);
-	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="underline" data-tooltip="Underline">
+	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="underline" data-tooltip="Underline (Ctrl+U)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M213.847-169.618v-45.383h532.306v45.383H213.847ZM480-298.848q-92.307 0-145.153-53.499-52.846-53.5-52.846-145.422V-823.46h59.537v324.921q0 65.693 36.692 104.462 36.693 38.77 101.77 38.77t101.77-38.77q36.692-38.769 36.692-104.462V-823.46h59.537v325.691q0 91.922-52.846 145.422Q572.307-298.848 480-298.848Z"/></svg>
 	</button>`);
-	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="strikethrough" data-tooltip="Strikethrough">
+	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="strikethrough" data-tooltip="Strikethrough (Ctrl+D)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M100.001-417.693v-45.383h759.998v45.383H100.001Zm345-109.999v-181.924H220.386v-70.383h519.613v70.383H515.384v181.924h-70.383Zm0 347.691v-173.076h70.383v173.076h-70.383Z"/></svg>
 	</button>`);
-	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="subscript" data-tooltip="Subscript">
+	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="subscript" data-tooltip="Subscript (Ctrl+,)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M754.384-180.001v-64.231q0-12.615 8.115-20.731 8.115-8.115 20.731-8.115h84.076v-36.923H754.384v-28.077h112.153q12.615 0 20.73 8.116 8.116 8.115 8.116 20.731v35.384q0 12.615-8.116 20.731-8.115 8.115-20.73 8.115H782.46v36.923h112.923v28.077H754.384Zm-496.69-72.308 176.153-274.845-162.768-252.845h64.075l136.539 213.385h-.385l138.077-213.385h63.691L509.538-527.154l176.538 274.845H623L471.308-487.463h.385L320.769-252.309h-63.075Z"/></svg>
 	</button>`);
-	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="superscript" data-tooltip="Superscript">
+	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="superscript" data-tooltip="Superscript (Ctrl+.)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M754.384-621.922v-64.231q0-12.615 8.115-20.731 8.115-8.115 20.731-8.115h84.076v-36.923H754.384v-28.077h112.153q12.615 0 20.73 8.116 8.116 8.115 8.116 20.731v35.384q0 12.615-8.116 20.731-8.115 8.115-20.73 8.115H782.46v36.923h112.923v28.077H754.384Zm-496.69 441.921 176.153-274.845-162.768-252.845h64.075l136.539 213.384h-.385l138.077-213.384h63.691L509.538-454.846l176.538 274.845H623L471.308-415.155h.385L320.769-180.001h-63.075Z"/></svg>
 	</button>`);
 	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="increase-indent" data-tooltip="Increase Indent">

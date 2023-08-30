@@ -68,6 +68,26 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 						richText.toggleItalic();
 
 						break;
+					case 'KeyU':
+						e.preventDefault();
+						richText.toggleUnderline();
+
+						break;
+					case 'KeyD':
+						e.preventDefault();
+						richText.toggleStrikethrough();
+
+						break;
+					case 'Comma':
+						e.preventDefault();
+						richText.toggleSubscript();
+
+						break;
+					case 'Period':
+						e.preventDefault();
+						richText.toggleSuperscript();
+
+						break;
 					default:
 						// Do nothing
 				}
