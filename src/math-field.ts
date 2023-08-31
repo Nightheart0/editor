@@ -6,9 +6,21 @@ import * as utils from './utils';
 function newMathField($editorDiv: JQuery<HTMLDivElement>) {
 	const span = document.createElement('span');
 	span.contentEditable = 'false';
+	span.dataset.mathfield = 'true';
 
 	const mfe = new ML.MathfieldElement();
 
+	addMathFieldEventListeners($editorDiv, span, mfe);
+
+	span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+	span.append(mfe);
+	span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+
+	utils.insertAtCursor(span);
+	setTimeout(() => mfe.focus(), 0);
+}
+
+function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HTMLSpanElement, mfe: ML.MathfieldElement) {
 	mfe.addEventListener('click', (e) => {
 		if (mfe.readOnly === true) {
 			mfe.readOnly = false;
@@ -62,13 +74,6 @@ function newMathField($editorDiv: JQuery<HTMLDivElement>) {
 	mfe.addEventListener('move-out', (e) => focusLost(mfe, e));
 	mfe.addEventListener('focus-out', (e) => focusLost(mfe, e));
 	mfe.addEventListener('focusout', (e) => focusLost(mfe, e));
-
-	span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
-	span.append(mfe);
-	span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
-
-	utils.insertAtCursor(span);
-	setTimeout(() => mfe.focus(), 0);
 }
 
 function focusLost(mfElement: ML.MathfieldElement, e: CustomEvent<ML.MoveOutEvent | ML.FocusOutEvent> | FocusEvent | KeyboardEvent) {
@@ -78,4 +83,4 @@ function focusLost(mfElement: ML.MathfieldElement, e: CustomEvent<ML.MoveOutEven
 	if (mfElement.value === '') $(mfElement).parent().remove();
 }
 
-export { newMathField };
+export { newMathField, addMathFieldEventListeners };

@@ -1,7 +1,8 @@
 import $ from 'jquery';
 import * as ML from 'mathlive';
+import * as DOMPurify from 'dompurify';
 
-import { newMathField } from './math-field';
+import { newMathField, addMathFieldEventListeners } from './math-field';
 import { init as initToolbars } from './toolbars';
 import { locales } from './locales';
 import * as clipboard from './clipboard';
@@ -111,6 +112,27 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 		.on('paste', (e) => {
 			clipboard.onPaste($(div) as JQuery<HTMLDivElement>, e);
 		});
+	
+	if (options.initialContents !== undefined) {
+		const cleanContents = DOMPurify.sanitize(options.initialContents, { ADD_TAGS: ['math-field'] });
+
+		div.innerHTML = cleanContents;
+
+		const $mathFields = $(div).children('span[data-mathfield="true"]');
+		for (let i = 0; i < $mathFields.length; i++) {
+			const mathFieldSpan = $mathFields.get(i) as HTMLSpanElement;
+			const mathFieldElement = mathFieldSpan.querySelector('math-field');
+
+			if (mathFieldElement === null) continue;
+			if (!mathFieldElement.hasAttribute('read-only')) {
+				mathFieldElement.setAttribute('read-only', '');
+			} else if (mathFieldElement.getAttribute('read-only') === 'false') {
+				mathFieldElement.setAttribute('read-only', '');
+			}
+
+			addMathFieldEventListeners($(div), mathFieldSpan, mathFieldElement as ML.MathfieldElement);
+		}
+	}
 }
 
 function onFocus($editorElement: JQuery<HTMLDivElement>) {

@@ -18,6 +18,7 @@ type EditorSupportedLocale = 'en';
 
 type EditorOptions = {
 	locale?: EditorSupportedLocale;
+	initialContents?: string;
 };
 
 interface Window {
