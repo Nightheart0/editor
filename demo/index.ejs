@@ -12,6 +12,13 @@
 	<title><%= htmlWebpackPlugin.options.title %></title>
 
 	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+		html, body {
+			margin: 0;
+			padding: 0;
+		}
+
 		iframe#webpack-dev-server-client-overlay {
 			display: none;
 		}
@@ -26,6 +33,8 @@
 		article {
 			padding: 0 20px;
 			display: block;
+
+			font-family: 'Open Sans', sans-serif;
 		}
 
 		@media (min-width: 900px) {
@@ -38,7 +47,7 @@
 			background: #fff;
     		box-shadow: 0 0 1px 1px #c6e6f2;
     		margin: 0 auto;
-    		max-width: 870px;
+    		max-width: 970px;
     		padding: 2em;
 		}
 
@@ -103,9 +112,14 @@
 
 	<script async="false">
 		const editor = document.querySelector('#editor');
+
 		setTimeout(() => {
-			initMistyEditor(editor, {});
+			initMistyEditor(editor, { initialContents: 'Test1<br><span contenteditable="false" data-mathfield="true">&nbsp;<math-field contenteditable="true" tabindex="0" read-only="">f(x) = \\sin(x+\\pi)</math-field>&nbsp;</span><br>' });
 		}, 1000);
+
+		editor.addEventListener('input', (e) => {
+			console.log(editor.innerHTML);
+		});
 	</script>
 </body>
 </html>
