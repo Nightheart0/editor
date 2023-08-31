@@ -163,6 +163,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dompurify@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/dompurify@npm:3.0.2"
+  dependencies:
+    "@types/trusted-types": "*"
+  checksum: dc017e16a46bcc77086af7d4dc5d2bf4102f16bf1a11b2937e90380da50e77716a2a608ff52990b1293250fefc2ad7593a1378fe07e3a7e21f200d702f0a7878
+  languageName: node
+  linkType: hard
+
 "@types/eslint-scope@npm:^3.7.3":
   version: 3.7.4
   resolution: "@types/eslint-scope@npm:3.7.4"
@@ -338,6 +347,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: b9bbb2b5c5ead2fb884bb019f61a014e37410bddd295de28184e1b2e71ee6b04120c5ba7b9954617f0bdf962c13d06249ce65004490889c747c80d3f628ea842
+  languageName: node
+  linkType: hard
+
+"@types/trusted-types@npm:*":
+  version: 2.0.3
+  resolution: "@types/trusted-types@npm:2.0.3"
+  checksum: 4794804bc4a4a173d589841b6d26cf455ff5dc4f3e704e847de7d65d215f2e7043d8757e4741ce3a823af3f08260a8d04a1a6e9c5ec9b20b7b04586956a6b005
   languageName: node
   linkType: hard
 
@@ -1322,6 +1338,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dompurify@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "dompurify@npm:3.0.5"
+  checksum: 2d9421570c833ce26ce7022955241749b646d41e8bf453f42ede9f22d0e98af482cedb7dfbf8129419eb48b351c1d677a08fc9f1cd91836ce7f6c1807a0676b2
+  languageName: node
+  linkType: hard
+
 "domutils@npm:^2.5.2, domutils@npm:^2.8.0":
   version: 2.8.0
   resolution: "domutils@npm:2.8.0"
@@ -1354,8 +1377,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "editor@workspace:."
   dependencies:
+    "@types/dompurify": ^3.0.2
     "@types/jquery": ^3.5.16
     css-loader: ^6.8.1
+    dompurify: ^3.0.5
     html-webpack-plugin: ^5.5.3
     jquery: ^3.7.0
     mathlive: ^0.95.1
