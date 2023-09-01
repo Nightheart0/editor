@@ -19,6 +19,8 @@ type EditorSupportedLocale = 'en';
 type EditorOptions = {
 	locale?: EditorSupportedLocale;
 	initialContents?: string;
+
+	onInput?: (value: string) => void;
 };
 
 interface Window {

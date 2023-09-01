@@ -43,6 +43,72 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 		$('body').append(state.$toolbar);
 	}
 
+	const onDivInput = () => {
+		let innerHTML = '';
+
+		div.childNodes.forEach((child) => {
+			if (child.nodeType === Node.ELEMENT_NODE && child.nodeName === 'SPAN') {
+				let span = child as HTMLSpanElement;
+				let spanHTML = '<span'
+
+				const attributeNames = span.getAttributeNames();
+				attributeNames.forEach((name) => {
+					const attributeValue = span.getAttribute(name);
+
+					if (attributeValue === null) {
+						spanHTML += ` ${name}`;
+					} else {
+						spanHTML += ` ${name}="${attributeValue}"`;
+					}
+				});
+
+				spanHTML += '>';
+
+				if (span.hasAttribute('data-mathfield')) {
+					const mathField: ML.MathfieldElement | null = span.querySelector('math-field') as ML.MathfieldElement | null;
+
+					if (mathField) {
+						spanHTML += `&nbsp;`;
+						spanHTML += `<math-field`;
+
+						const mathAttributeNames = mathField.getAttributeNames();
+						mathAttributeNames.forEach((name) => {
+							const attributeValue = span.getAttribute(name);
+
+							if (attributeValue === null) {
+								spanHTML += ` ${name}`;
+							} else {
+								spanHTML += ` ${name}="${attributeValue}"`;
+							}
+						});
+
+						spanHTML += '>';
+
+						const latex = mathField.getValue();
+
+						spanHTML += latex;
+						spanHTML += `</math-field>`
+						spanHTML += `&nbsp;`;
+					}
+				} else {
+					spanHTML += span.innerHTML;
+				}
+
+				spanHTML += '</span>';
+				innerHTML += spanHTML;
+			} else if (child.nodeType === Node.ELEMENT_NODE) {
+				const element = child as HTMLElement;
+				innerHTML += element.outerHTML;
+			} else if (child.nodeType === Node.TEXT_NODE) {
+				innerHTML += child.textContent;
+			}
+		});
+
+		if (options.onInput) {
+			options.onInput(innerHTML);
+		}
+	};
+
 	$(div)
 		.attr({
 			contenteditable: true,
@@ -108,6 +174,8 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 		.on('input', (e) => {
 			if (div.lastChild === null) div.appendChild(document.createElement('br'));
 			if (div.lastChild!.nodeName !== 'BR') div.appendChild(document.createElement('br'));
+
+			onDivInput();
 		})
 		.on('paste', (e) => {
 			clipboard.onPaste($(div) as JQuery<HTMLDivElement>, e);
