@@ -130,6 +130,8 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 				mathFieldElement.setAttribute('read-only', '');
 			}
 
+			mathFieldSpan.contentEditable = 'false';
+
 			addMathFieldEventListeners($(div), mathFieldSpan, mathFieldElement as ML.MathfieldElement);
 		}
 	}
