@@ -101,6 +101,10 @@
 			</div>
 
 			<div id="editor"></div>
+
+			<p id="save-info" style="display: none;">Everything typed will be saved automatically.</p>
+			<p id="autosave-unavailable" style="display: none;"><span style="color: red;">Autosave isn't available because localStorage cannot be accessed.</span></p>
+			<p id="autosave-failed" style="display: none;"><span style="color: red;">Couldn't save your work. Maybe localStorage is full?</span></p>
 		</section>
 	</article>
 
@@ -113,13 +117,44 @@
 	<script async="false">
 		const editor = document.querySelector('#editor');
 
-		setTimeout(() => {
-			initMistyEditor(editor, { initialContents: 'Test1<br><span contenteditable="false" data-mathfield="true">&nbsp;<math-field contenteditable="true" tabindex="0" read-only="">f(x) = \\sin(x+\\pi)</math-field>&nbsp;</span><br>' });
-		}, 1000);
+		const saveInfo = document.getElementById('save-info');
+		const autosaveUnavailable = document.getElementById('autosave-unavailable');
+		const autosaveFailed = document.getElementById('autosave-failed');
 
-		editor.addEventListener('input', (e) => {
-			console.log(editor.innerHTML);
-		});
+		setTimeout(() => {
+			let isSaveSupported = false;
+			let editorSave = null;
+
+			try {
+				editorSave = localStorage.getItem('editor-save');
+				isSaveSupported = true;
+
+				saveInfo.style = 'display: block;';
+			} catch (e) {
+				console.warn(`Cannot load save data: ${e}`);
+
+				saveInfo.style = 'display: none;';
+				autosaveUnavailable.style = 'display: block;';
+			}
+
+			const options = {};
+
+			if (isSaveSupported) {
+				options.onInput = (contents) => {
+					try {
+						localStorage.setItem('editor-save', contents);
+						autosaveFailed.style = 'display: none;';
+					} catch (e) {
+						autosaveFailed.style = 'display: block;';
+					}
+				};
+			}
+			if (editorSave) {
+				options.initialContents = editorSave;
+			}
+
+			initMistyEditor(editor, options);
+		}, 1000);
 	</script>
 </body>
 </html>
