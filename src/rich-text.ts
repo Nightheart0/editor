@@ -3,8 +3,20 @@ import * as utils from './utils';
 import styles from './text-styles.module.css';
 
 function insertLinebreak() {
-	utils.insertAtCursor(document.createElement('br'));
-	// TODO: Add indentation
+	const selection = document.getSelection();
+
+	if (selection?.anchorNode?.parentElement?.tagName === 'SPAN') {
+		const br = document.createElement('br');
+		const parentElement: HTMLSpanElement = selection.anchorNode.parentElement as HTMLSpanElement;
+		parentElement.insertAdjacentElement('afterend', br);
+
+		const range = selection.getRangeAt(0);
+		range.insertNode(br);
+		range.setStartAfter(br);
+		range.setEndAfter(br);
+	} else {
+		utils.insertAtCursor(document.createElement('br'));
+	}
 }
 
 function toggleBold() {
