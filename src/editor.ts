@@ -35,6 +35,76 @@ const defaultOptions: EditorOptions = {
 window.editor2 = window.editor2 || initialState;
 const state = window.editor2;
 
+function getEditorValue(editor: HTMLDivElement): string {
+	let value = '';
+
+	editor.childNodes.forEach((child) => {
+		if (child.nodeType === Node.ELEMENT_NODE && child.nodeName === 'SPAN' && (child as HTMLSpanElement).hasAttribute('data-mathfield')) {
+			const span = child as HTMLSpanElement;
+			const mathField: ML.MathfieldElement | null = span.querySelector('math-field') as ML.MathfieldElement | null;
+
+			if (mathField) {
+				value += `<math-field>`;
+
+				const latex = mathField.getValue();
+				value += latex;
+
+				value += `</math-field>`
+			}
+		} else if (child.nodeType === Node.ELEMENT_NODE) {
+			const element = child as HTMLElement;
+			value += element.outerHTML;
+		} else if (child.nodeType === Node.TEXT_NODE) {
+			value += child.textContent;
+		} 
+	});
+
+	return value;
+}
+
+function setEditorValue(editor: HTMLDivElement, value: string) {
+	const cleanValue = DOMPurify.sanitize(value, { ADD_TAGS: ['math-field'] });
+	const parser = new DOMParser();
+	const document = parser.parseFromString(cleanValue, 'text/html');
+
+	const mathFields = document.body.querySelectorAll('math-field');
+	mathFields.forEach((mathField) => {
+		const span = document.createElement('span');
+		span.contentEditable = 'false';
+		span.dataset.mathfield = 'true';
+
+		if (!mathField.hasAttribute('read-only')) {
+			mathField.setAttribute('read-only', '');
+		} else if (mathField.getAttribute('read-only') === 'false') {
+			mathField.setAttribute('read-only', '');
+		}
+
+		if (!mathField.hasAttribute('contenteditable')) {
+			mathField.setAttribute('contenteditable', 'true');
+		} else if (mathField.getAttribute('contenteditable') === 'false') {
+			mathField.setAttribute('contenteditable', 'true');
+		}
+
+		mathField.insertAdjacentElement('beforebegin', span);
+
+		span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+		span.appendChild(mathField);
+		span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+	});
+
+	editor.innerHTML = document.body.innerHTML;
+
+	const $mathFields = $(editor).children('span[data-mathfield="true"]');
+	for (let i = 0; i < $mathFields.length; i++) {
+		const mathFieldSpan = $mathFields.get(i) as HTMLSpanElement;
+		const mathFieldElement = mathFieldSpan.querySelector('math-field');
+
+		if (mathFieldElement === null) continue;
+
+		addMathFieldEventListeners($(editor), mathFieldSpan, mathFieldElement as ML.MathfieldElement);
+	}
+}
+
 function init(div: HTMLDivElement, options: EditorOptions) {
 	const strings = locales[options.locale ?? defaultOptions.locale as EditorSupportedLocale];
 
@@ -45,68 +115,10 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 	}
 
 	const onDivInput = () => {
-		let innerHTML = '';
-
-		div.childNodes.forEach((child) => {
-			if (child.nodeType === Node.ELEMENT_NODE && child.nodeName === 'SPAN') {
-				let span = child as HTMLSpanElement;
-				let spanHTML = '<span'
-
-				const attributeNames = span.getAttributeNames();
-				attributeNames.forEach((name) => {
-					const attributeValue = span.getAttribute(name);
-
-					if (attributeValue === null) {
-						spanHTML += ` ${name}`;
-					} else {
-						spanHTML += ` ${name}="${attributeValue}"`;
-					}
-				});
-
-				spanHTML += '>';
-
-				if (span.hasAttribute('data-mathfield')) {
-					const mathField: ML.MathfieldElement | null = span.querySelector('math-field') as ML.MathfieldElement | null;
-
-					if (mathField) {
-						spanHTML += `&nbsp;`;
-						spanHTML += `<math-field`;
-
-						const mathAttributeNames = mathField.getAttributeNames();
-						mathAttributeNames.forEach((name) => {
-							const attributeValue = span.getAttribute(name);
-
-							if (attributeValue === null) {
-								spanHTML += ` ${name}`;
-							} else {
-								spanHTML += ` ${name}="${attributeValue}"`;
-							}
-						});
-
-						spanHTML += '>';
-
-						const latex = mathField.getValue();
-
-						spanHTML += latex;
-						spanHTML += `</math-field>`
-						spanHTML += `&nbsp;`;
-					}
-				} else {
-					spanHTML += span.innerHTML;
-				}
-
-				spanHTML += '</span>';
-				innerHTML += spanHTML;
-			} else if (child.nodeType === Node.ELEMENT_NODE) {
-				const element = child as HTMLElement;
-				innerHTML += element.outerHTML;
-			} else if (child.nodeType === Node.TEXT_NODE) {
-				innerHTML += child.textContent;
-			}
-		});
+		const value = getEditorValue(div);
 
 		if (options.onInput) {
-			options.onInput(innerHTML);
+			options.onInput(value);
 		}
 	};
 
@@ -183,26 +195,7 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 		});
 	
 	if (options.initialContents !== undefined) {
-		const cleanContents = DOMPurify.sanitize(options.initialContents, { ADD_TAGS: ['math-field'] });
-
-		div.innerHTML = cleanContents;
-
-		const $mathFields = $(div).children('span[data-mathfield="true"]');
-		for (let i = 0; i < $mathFields.length; i++) {
-			const mathFieldSpan = $mathFields.get(i) as HTMLSpanElement;
-			const mathFieldElement = mathFieldSpan.querySelector('math-field');
-
-			if (mathFieldElement === null) continue;
-			if (!mathFieldElement.hasAttribute('read-only')) {
-				mathFieldElement.setAttribute('read-only', '');
-			} else if (mathFieldElement.getAttribute('read-only') === 'false') {
-				mathFieldElement.setAttribute('read-only', '');
-			}
-
-			mathFieldSpan.contentEditable = 'false';
-
-			addMathFieldEventListeners($(div), mathFieldSpan, mathFieldElement as ML.MathfieldElement);
-		}
+		setEditorValue(div, options.initialContents);
 	}
 }
 
