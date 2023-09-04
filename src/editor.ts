@@ -9,6 +9,7 @@ import * as clipboard from './clipboard';
 import * as utils from './utils';
 import * as richText from './rich-text';
 
+import editorStyles from './editor.module.css';
 import toolbarStyles from './toolbars.module.css';
 
 /**
@@ -113,10 +114,10 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 		.attr({
 			contenteditable: true,
 			spellcheck: false,
-			'data-js': 'mistyeditor',
+			'data-js': 'sunstar-editor',
 		})
 		.append(document.createElement('br'))
-		.addClass('rich-text-editor')
+		.addClass(editorStyles['sunstar-editor'])
 		.on('keydown', (e) => {
 			if (e.ctrlKey) {
 				switch (e.code) {

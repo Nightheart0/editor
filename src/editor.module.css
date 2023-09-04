@@ -1,3 +1,10 @@
+.sunstar-editor {
+	box-sizing: border-box !important;
+	padding: 5px !important;
+
+	min-height: 2em;
+}
+
 .img {
 	display: inline;
 
