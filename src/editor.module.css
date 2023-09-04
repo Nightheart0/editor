@@ -10,3 +10,15 @@
 
 	max-height: 400px;
 }
+
+.math-field-open {
+	display: block;
+
+	width: calc(100% - 10px);
+	height: fit-content;
+}
+
+.math-field-open math-field {
+	width: 100%;
+	height: fit-content;
+}

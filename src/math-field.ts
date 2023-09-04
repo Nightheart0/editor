@@ -3,6 +3,8 @@ import * as ML from 'mathlive';
 
 import * as utils from './utils';
 
+import styles from './editor.module.css';
+
 function newMathField($editorDiv: JQuery<HTMLDivElement>) {
 	const span = document.createElement('span');
 	span.contentEditable = 'false';
@@ -71,16 +73,22 @@ function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HT
 		};
 	});
 
-	mfe.addEventListener('move-out', (e) => focusLost(mfe, e));
-	mfe.addEventListener('focus-out', (e) => focusLost(mfe, e));
-	mfe.addEventListener('focusout', (e) => focusLost(mfe, e));
+	mfe.addEventListener('blur', (e) => onBlur(mfe, span, e))
+	mfe.addEventListener('focus', (e) => onFocus(mfe, span, e));
 }
 
-function focusLost(mfElement: ML.MathfieldElement, e: CustomEvent<ML.MoveOutEvent | ML.FocusOutEvent> | FocusEvent | KeyboardEvent) {
+function onFocus(mfe: ML.MathfieldElement, span: HTMLSpanElement, e: FocusEvent) {
+	if (mfe.readOnly === true) mfe.readOnly = false;
+	if (!span.classList.contains(styles['math-field-open'])) span.classList.add(styles['math-field-open']);
+}
+
+function onBlur(mfe: ML.MathfieldElement, span: HTMLSpanElement, e: FocusEvent) {
 	e.preventDefault();
 
-	mfElement.readOnly = true;
-	if (mfElement.value === '') $(mfElement).parent().remove();
+	mfe.readOnly = true;
+	if (span.classList.contains(styles['math-field-open'])) span.classList.remove(styles['math-field-open']);
+
+	if (mfe.value === '') $(mfe).parent().remove();
 }
 
 export { newMathField, addMathFieldEventListeners };
