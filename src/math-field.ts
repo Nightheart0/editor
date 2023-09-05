@@ -35,7 +35,14 @@ function initializeLaTeXEditor(span: HTMLSpanElement, mfe: ML.MathfieldElement) 
 	textarea.placeholder = 'LaTeX';
 
 	mfe.addEventListener('input', (ev) => textarea.value = mfe.value);
+
 	textarea.addEventListener('input', (ev) => mfe.setValue(textarea.value, { silenceNotifications: true }));
+	textarea.addEventListener('blur', (ev) => {
+		if (ev.relatedTarget === undefined) return;
+		if (ev.relatedTarget === mfe) return;
+
+		onBlur(mfe, span, ev);
+	});
 	textarea.value = mfe.value;
 
 	span.appendChild(textarea);
@@ -92,7 +99,14 @@ function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HT
 		};
 	});
 
-	mfe.addEventListener('blur', (e) => onBlur(mfe, span, e));
+	mfe.addEventListener('blur', (ev) => {
+		if (ev.relatedTarget === undefined) return;
+
+		const latexField = span.querySelector('textarea');
+		if (latexField !== null && ev.relatedTarget === latexField) return;
+
+		onBlur(mfe, span, ev);
+	});
 	mfe.addEventListener('focus', (e) => onFocus(mfe, span, e));
 }
 
