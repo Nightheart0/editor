@@ -7,19 +7,38 @@ import styles from './editor.module.css';
 
 function newMathField($editorDiv: JQuery<HTMLDivElement>) {
 	const span = document.createElement('span');
-	span.contentEditable = 'false';
-	span.dataset.mathfield = 'true';
-
 	const mfe = new ML.MathfieldElement();
 
+	initializeSpan(span);
 	addMathFieldEventListeners($editorDiv, span, mfe);
 
-	span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
-	span.append(mfe);
-	span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+	//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+	span.appendChild(mfe);
+	initializeLaTeXEditor(span, mfe);
+	//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
 
 	utils.insertAtCursor(span);
 	setTimeout(() => mfe.focus(), 0);
+}
+
+function initializeSpan(span: HTMLSpanElement) {
+	span.contentEditable = 'false';
+	span.dataset.mathfield = 'true';
+
+	span.classList.add(styles['math-field']);
+	span.classList.add(styles['math-field-closed']);
+}
+
+function initializeLaTeXEditor(span: HTMLSpanElement, mfe: ML.MathfieldElement) {
+	const textarea = document.createElement('textarea');
+
+	textarea.placeholder = 'LaTeX';
+
+	mfe.addEventListener('input', (ev) => textarea.value = mfe.value);
+	textarea.addEventListener('input', (ev) => mfe.setValue(textarea.value, { silenceNotifications: true }));
+	textarea.value = mfe.value;
+
+	span.appendChild(textarea);
 }
 
 function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HTMLSpanElement, mfe: ML.MathfieldElement) {
@@ -73,12 +92,14 @@ function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HT
 		};
 	});
 
-	mfe.addEventListener('blur', (e) => onBlur(mfe, span, e))
+	mfe.addEventListener('blur', (e) => onBlur(mfe, span, e));
 	mfe.addEventListener('focus', (e) => onFocus(mfe, span, e));
 }
 
 function onFocus(mfe: ML.MathfieldElement, span: HTMLSpanElement, e: FocusEvent) {
 	if (mfe.readOnly === true) mfe.readOnly = false;
+
+	if (span.classList.contains(styles['math-field-closed'])) span.classList.remove(styles['math-field-closed']);
 	if (!span.classList.contains(styles['math-field-open'])) span.classList.add(styles['math-field-open']);
 }
 
@@ -86,9 +107,11 @@ function onBlur(mfe: ML.MathfieldElement, span: HTMLSpanElement, e: FocusEvent) 
 	e.preventDefault();
 
 	mfe.readOnly = true;
+
+	if (!span.classList.contains(styles['math-field-closed'])) span.classList.add(styles['math-field-closed']);
 	if (span.classList.contains(styles['math-field-open'])) span.classList.remove(styles['math-field-open']);
 
 	if (mfe.value === '') $(mfe).parent().remove();
 }
 
-export { newMathField, addMathFieldEventListeners };
+export { newMathField, initializeSpan, initializeLaTeXEditor, addMathFieldEventListeners };

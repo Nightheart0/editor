@@ -2,7 +2,7 @@ import $ from 'jquery';
 import * as ML from 'mathlive';
 import * as DOMPurify from 'dompurify';
 
-import { newMathField, addMathFieldEventListeners } from './math-field';
+import * as mathField from './math-field';
 import { init as initToolbars } from './toolbars';
 import { locales } from './locales';
 import * as clipboard from './clipboard';
@@ -68,28 +68,27 @@ function setEditorValue(editor: HTMLDivElement, value: string) {
 	const document = parser.parseFromString(cleanValue, 'text/html');
 
 	const mathFields = document.body.querySelectorAll('math-field');
-	mathFields.forEach((mathField) => {
+	mathFields.forEach((mfe) => {
 		const span = document.createElement('span');
-		span.contentEditable = 'false';
-		span.dataset.mathfield = 'true';
+		mathField.initializeSpan(span);
 
-		if (!mathField.hasAttribute('read-only')) {
-			mathField.setAttribute('read-only', '');
-		} else if (mathField.getAttribute('read-only') === 'false') {
-			mathField.setAttribute('read-only', '');
+		if (!mfe.hasAttribute('read-only')) {
+			mfe.setAttribute('read-only', '');
+		} else if (mfe.getAttribute('read-only') === 'false') {
+			mfe.setAttribute('read-only', '');
 		}
 
-		if (!mathField.hasAttribute('contenteditable')) {
-			mathField.setAttribute('contenteditable', 'true');
-		} else if (mathField.getAttribute('contenteditable') === 'false') {
-			mathField.setAttribute('contenteditable', 'true');
+		if (!mfe.hasAttribute('contenteditable')) {
+			mfe.setAttribute('contenteditable', 'true');
+		} else if (mfe.getAttribute('contenteditable') === 'false') {
+			mfe.setAttribute('contenteditable', 'true');
 		}
 
-		mathField.insertAdjacentElement('beforebegin', span);
+		mfe.insertAdjacentElement('beforebegin', span);
 
-		span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
-		span.appendChild(mathField);
-		span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+		//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+		span.appendChild(mfe);
+		//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
 	});
 
 	editor.innerHTML = document.body.innerHTML;
@@ -101,7 +100,8 @@ function setEditorValue(editor: HTMLDivElement, value: string) {
 
 		if (mathFieldElement === null) continue;
 
-		addMathFieldEventListeners($(editor), mathFieldSpan, mathFieldElement as ML.MathfieldElement);
+		mathField.initializeLaTeXEditor(mathFieldSpan, mathFieldElement as ML.MathfieldElement);
+		mathField.addMathFieldEventListeners($(editor), mathFieldSpan, mathFieldElement as ML.MathfieldElement);
 	}
 }
 
@@ -135,7 +135,7 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 				switch (e.code) {
 					case 'KeyE':
 						e.preventDefault();
-						newMathField($(div));
+						mathField.newMathField($(div));
 
 						break;
 					case 'KeyB':
