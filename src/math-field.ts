@@ -49,6 +49,8 @@ function initializeLaTeXEditor(span: HTMLSpanElement, mfe: ML.MathfieldElement) 
 }
 
 function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HTMLSpanElement, mfe: ML.MathfieldElement) {
+	mfe.mathModeSpace = '\\:';
+
 	mfe.addEventListener('click', (e) => {
 		if (mfe.readOnly === true) {
 			mfe.readOnly = false;
