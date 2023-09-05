@@ -20,6 +20,19 @@
 	display: inline;
 }
 
+.math-field-closed math-field {
+	border-style: none;
+	border-width: 0;
+}
+
+.math-field-closed math-field:hover {
+	cursor: pointer;
+	user-select: none;
+	
+	border-style: dashed;
+	border-width: 1px;
+}
+
 .math-field-closed textarea {
 	display: none;
 }
