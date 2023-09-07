@@ -186,8 +186,8 @@ function initMathToolbar($mathToolbar: JQuery<HTMLDivElement>) {
 
 function initInsertEquation($insertEquation: JQuery<HTMLButtonElement>) {
 	$insertEquation.on('mousedown', (e) => {
-		if (window.editor2.$currentEditor === null) return;
-		newMathField(window.editor2.$currentEditor);
+		if (window.sunstarEditor.$currentEditor === null) return;
+		newMathField(window.sunstarEditor.$currentEditor);
 	});
 }
 

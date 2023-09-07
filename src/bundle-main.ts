@@ -1,3 +1,3 @@
 import { init } from './editor';
 
-(window as any).initMistyEditor = init;
+(window as any).initSunstarEditor = init;

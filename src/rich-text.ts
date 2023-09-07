@@ -81,7 +81,7 @@ function insertCharacterButonClick(e: JQuery.MouseDownEvent) {
 	//const command = e.currentTarget.dataset.command;
 	//const useWrite = e.currentTarget.dataset.usewrite === 'true';
 
-	if (window.editor2.$currentEditor !== null) {
+	if (window.sunstarEditor.$currentEditor !== null) {
 		utils.insertAtCursor(character);
 	}
 }

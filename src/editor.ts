@@ -32,8 +32,8 @@ const defaultOptions: EditorOptions = {
 	locale: 'en',
 };
 
-window.editor2 = window.editor2 || initialState;
-const state = window.editor2;
+window.sunstarEditor = window.sunstarEditor || initialState;
+const state = window.sunstarEditor;
 
 function getEditorValue(editor: HTMLDivElement): string {
 	let value = '';

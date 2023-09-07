@@ -24,11 +24,11 @@ type EditorOptions = {
 };
 
 interface Window {
-	editor2: EditorState;
+	sunstarEditor: EditorState;
 }
 
 declare global {
 	interface Window {
-		editor2: EditorState;
+		sunstarEditor: EditorState;
 	}
 }
