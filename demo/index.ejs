@@ -28,6 +28,15 @@
 			min-height: 100px;
 		}
 
+		#editor-loading {
+			width: 100%;
+			height: 100%;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
 		article {
 			padding: 0 20px;
 			display: block;
@@ -98,7 +107,11 @@
 				</div>
 			</div>
 
-			<div id="editor"></div>
+			<div id="editor">
+				<div id="editor-loading">
+					<p>The editor is loading...</p>
+				</div>
+			</div>
 
 			<p id="save-info" style="display: none;">Everything typed will be saved automatically.</p>
 			<p id="autosave-unavailable" style="display: none;"><span style="color: red;">Autosave isn't available because localStorage cannot be accessed.</span></p>
@@ -119,7 +132,7 @@
 		const autosaveUnavailable = document.getElementById('autosave-unavailable');
 		const autosaveFailed = document.getElementById('autosave-failed');
 
-		setTimeout(() => {
+		function initializeEditor() {
 			let isSaveSupported = false;
 			let editorSave = null;
 
@@ -151,7 +164,20 @@
 				options.initialContents = editorSave;
 			}
 
-			initMistyEditor(editor, options);
+			initSunstarEditor(editor, options);
+		}
+
+		const interval = setInterval(() => {
+			if (window.initSunstarEditor) {
+				clearInterval(interval);
+
+				const editorLoading = document.getElementById('editor-loading');
+				if (editorLoading) editorLoading.remove();
+
+				initializeEditor();
+			} else {
+				console.log('Waiting for the bundle to load...')
+			}
 		}, 1000);
 	</script>
 </body>
