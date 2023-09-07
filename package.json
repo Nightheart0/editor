@@ -1,5 +1,6 @@
 {
   "name": "editor",
+  "version": "0.0.4",
   "packageManager": "yarn@3.6.1",
   "scripts": {
     "build": "webpack --config webpack.config.cjs",
