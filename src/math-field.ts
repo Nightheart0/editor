@@ -74,9 +74,15 @@ function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HT
 			range.setEndAfter(span);
 
 			const value = mfe.value;
-			if (value.endsWith('\\')) mfe.setValue(value.slice(0, -1), { silenceNotifications: true });
+			if (value.endsWith('\\')) {
+				mfe.setValue(value.slice(0, -1), { silenceNotifications: true });
+				$editorDiv.get(0)!.dispatchEvent(new Event('input'));
+			}
 
-			if (mfe.value === '') $(mfe).parent().remove();
+			if (mfe.value === '') {
+				$(mfe).parent().remove();
+				$editorDiv.get(0)!.dispatchEvent(new Event('input'));
+			}
 		}
 	});
 	mfe.addEventListener('beforeinput', (e) => {
@@ -127,7 +133,15 @@ function onBlur(mfe: ML.MathfieldElement, span: HTMLSpanElement, e: FocusEvent) 
 	if (!span.classList.contains(styles['math-field-closed'])) span.classList.add(styles['math-field-closed']);
 	if (span.classList.contains(styles['math-field-open'])) span.classList.remove(styles['math-field-open']);
 
-	if (mfe.value === '') $(mfe).parent().remove();
+	if (mfe.value === '') {
+		const editorDiv = mfe.parentElement?.parentElement;
+
+		$(mfe).parent().remove();
+
+		if (editorDiv !== null && editorDiv !== undefined) {
+			editorDiv.dispatchEvent(new Event('input'));
+		}
+	}
 }
 
 export { newMathField, initializeSpan, initializeLaTeXEditor, addMathFieldEventListeners };
