@@ -1,3 +1,6 @@
+import * as rangy from 'rangy';
+import 'rangy/rangy-classapplier';
+
 function insertAtCursor(nodeOrString: Node | string) {
 	if (window.getSelection) {
 		const selection = window.getSelection();
@@ -41,7 +44,7 @@ function addClassToSelection(selection: Selection, cssClass: string): void {
 		try {
 			range.surroundContents(spanElement);
 		} catch {
-			// Unhandled for now
+			// The selection spans across element boundaries
 		}
 	}
 }
@@ -116,17 +119,32 @@ function selectionHasClass(selection: Selection, cssClass: string): boolean | nu
 	if (selection.anchorNode?.nodeName !== '#text' || selection.focusNode?.nodeName !== '#text') return null;
 	if (selection.anchorNode.parentElement === null || selection.focusNode.parentElement === null) return null;
 
-	if (selection.anchorNode.parentElement === selection.focusNode.parentElement && selection.anchorNode.parentElement.nodeName.toLowerCase() === 'span') {
-		const span = selection.anchorNode.parentElement;
+	if (selection.anchorNode.parentElement === selection.focusNode.parentElement) {
+		if (selection.anchorNode.parentElement.nodeName.toLowerCase() === 'span') {
+			const span = selection.anchorNode.parentElement;
 
-		if (span.classList.contains(cssClass)) {
-			return true;
+			if (span.classList.contains(cssClass)) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
-			return false;
+			return null;
+		}
+	} else {
+		if (selection.anchorNode.parentElement.nodeName.toLowerCase() === 'span' && selection.focusNode.parentElement.nodeName.toLowerCase() === 'span') {
+			const anchorSpan = selection.anchorNode.parentElement;
+			const focusSpan = selection.focusNode.parentElement;
+
+			if (anchorSpan.classList.contains(cssClass) && focusSpan.classList.contains(cssClass)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return null;
 		}
 	}
-
-	return null;
 }
 
 function toggleStyle(selection: Selection, cssClass: string) {
