@@ -145,13 +145,7 @@ function selectionHasClass(selection: Selection, cssClass: string): boolean | nu
 }
 
 function toggleStyle(selection: Selection, cssClass: string) {
-	if (selection.type === 'Range') {
-		if (selectionHasClass(selection, cssClass)) {
-			removeClassFromSelection(selection, cssClass);
-		} else {
-			addClassToSelection(selection, cssClass);
-		}
-	} else if (selection.type === 'Caret') {
+	if (selection.type === 'Caret') {
 		const range = selection.getRangeAt(0);
 
 		if (selection.anchorNode?.parentElement?.tagName === 'SPAN' && selection.anchorNode?.parentElement?.classList?.contains(cssClass)) {

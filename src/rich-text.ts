@@ -20,33 +20,81 @@ function insertLinebreak() {
 }
 
 function toggleBold() {
-	const applier = window.sunstarEditor.styleAppliers.bold;
-	applier.toggleSelection();
+	const selection = window.getSelection();
+
+	if (selection === null) return;
+
+	if (selection.type === 'Caret') {
+		utils.toggleStyle(selection, styles.bold);
+	} else {
+		const applier = window.sunstarEditor.styleAppliers.bold;
+		applier.toggleSelection();
+	}
 }
 
 function toggleItalic() {
-	const applier = window.sunstarEditor.styleAppliers.italic;
-	applier.toggleSelection();
+	const selection = window.getSelection();
+
+	if (selection === null) return;
+
+	if (selection.type === 'Caret') {
+		utils.toggleStyle(selection, styles.italic);
+	} else {
+		const applier = window.sunstarEditor.styleAppliers.italic;
+		applier.toggleSelection();
+	}
 }
 
 function toggleUnderline() {
-	const applier = window.sunstarEditor.styleAppliers.underline;
-	applier.toggleSelection();
+	const selection = window.getSelection();
+
+	if (selection === null) return;
+
+	if (selection.type === 'Caret') {
+		utils.toggleStyle(selection, styles.underline);
+	} else {
+		const applier = window.sunstarEditor.styleAppliers.underline;
+		applier.toggleSelection();
+	}
 }
 
 function toggleStrikethrough() {
-	const applier = window.sunstarEditor.styleAppliers.strikethrough;
-	applier.toggleSelection();
+	const selection = window.getSelection();
+
+	if (selection === null) return;
+
+	if (selection.type === 'Caret') {
+		utils.toggleStyle(selection, styles.strikethrough);
+	} else {
+		const applier = window.sunstarEditor.styleAppliers.strikethrough;
+		applier.toggleSelection();
+	}
 }
 
 function toggleSubscript() {
-	const applier = window.sunstarEditor.styleAppliers.subscript;
-	applier.toggleSelection();
+	const selection = window.getSelection();
+
+	if (selection === null) return;
+
+	if (selection.type === 'Caret') {
+		utils.toggleStyle(selection, styles.subscript);
+	} else {
+		const applier = window.sunstarEditor.styleAppliers.subscript;
+		applier.toggleSelection();
+	}
 }
 
 function toggleSuperscript() {
-	const applier = window.sunstarEditor.styleAppliers.superscript;
-	applier.toggleSelection();
+	const selection = window.getSelection();
+
+	if (selection === null) return;
+
+	if (selection.type === 'Caret') {
+		utils.toggleStyle(selection, styles.superscript);
+	} else {
+		const applier = window.sunstarEditor.styleAppliers.superscript;
+		applier.toggleSelection();
+	}
 }
 
 function increaseIndent(editorDiv: HTMLDivElement, selection: Selection) {
