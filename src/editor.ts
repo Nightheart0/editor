@@ -2,6 +2,9 @@ import $ from 'jquery';
 import * as ML from 'mathlive';
 import * as DOMPurify from 'dompurify';
 
+import * as rangy from 'rangy';
+import 'rangy/lib/rangy-classapplier';
+
 import * as mathField from './math-field';
 import { init as initToolbars } from './toolbars';
 import { locales } from './locales';
@@ -11,6 +14,9 @@ import * as richText from './rich-text';
 
 import editorStyles from './editor.module.css';
 import toolbarStyles from './toolbars.module.css';
+import textStyles from './text-styles.module.css';
+
+(rangy as any).init();
 
 /**
  * The initial state
@@ -19,6 +25,15 @@ const initialState: EditorState = {
 	focus: {
 		richTextEditor: false,
 		mathEquation: false,
+	},
+
+	styleAppliers: {
+		bold: (rangy as any).createClassApplier(textStyles.bold),
+		italic: (rangy as any).createClassApplier(textStyles.italic),
+		underline: (rangy as any).createClassApplier(textStyles.underline),
+		strikethrough: (rangy as any).createClassApplier(textStyles.strikethrough),
+		subscript: (rangy as any).createClassApplier(textStyles.subscript),
+		superscript: (rangy as any).createClassApplier(textStyles.superscript),
 	},
 
 	$currentEditor: null,

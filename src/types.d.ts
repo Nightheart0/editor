@@ -7,6 +7,15 @@ type EditorState = {
 		mathEquation: boolean;
 	};
 
+	styleAppliers: {
+		bold: RangyClassApplier;
+		italic: RangyClassApplier;
+		underline: RangyClassApplier;
+		strikethrough: RangyClassApplier;
+		subscript: RangyClassApplier;
+		superscript: RangyClassApplier;
+	};
+
 	$currentEditor: JQuery<HTMLDivElement> | null;
 	$toolbar: JQuery<HTMLDivElement> | null;
 	$helpOverlay: JQuery<HTMLDivElement> | null;

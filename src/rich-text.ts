@@ -20,45 +20,33 @@ function insertLinebreak() {
 }
 
 function toggleBold() {
-	const selection = document.getSelection();
-	if (selection === null) return;
-
-	utils.toggleStyle(selection, styles.bold);
+	const applier = window.sunstarEditor.styleAppliers.bold;
+	applier.toggleSelection();
 }
 
 function toggleItalic() {
-	const selection = document.getSelection();
-	if (selection === null) return;
-
-	utils.toggleStyle(selection, styles.italic);
+	const applier = window.sunstarEditor.styleAppliers.italic;
+	applier.toggleSelection();
 }
 
 function toggleUnderline() {
-	const selection = document.getSelection();
-	if (selection === null) return;
-
-	utils.toggleStyle(selection, styles.underline);
+	const applier = window.sunstarEditor.styleAppliers.underline;
+	applier.toggleSelection();
 }
 
 function toggleStrikethrough() {
-	const selection = document.getSelection();
-	if (selection === null) return;
-
-	utils.toggleStyle(selection, styles.strikethrough);
+	const applier = window.sunstarEditor.styleAppliers.strikethrough;
+	applier.toggleSelection();
 }
 
 function toggleSubscript() {
-	const selection = document.getSelection();
-	if (selection === null) return;
-
-	utils.toggleStyle(selection, styles.subscript);
+	const applier = window.sunstarEditor.styleAppliers.subscript;
+	applier.toggleSelection();
 }
 
 function toggleSuperscript() {
-	const selection = document.getSelection();
-	if (selection === null) return;
-
-	utils.toggleStyle(selection, styles.superscript);
+	const applier = window.sunstarEditor.styleAppliers.superscript;
+	applier.toggleSelection();
 }
 
 function increaseIndent(editorDiv: HTMLDivElement, selection: Selection) {

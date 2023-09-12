@@ -1,6 +1,3 @@
-import * as rangy from 'rangy';
-import 'rangy/rangy-classapplier';
-
 function insertAtCursor(nodeOrString: Node | string) {
 	if (window.getSelection) {
 		const selection = window.getSelection();
