@@ -32,6 +32,10 @@ type EditorOptions = {
 	onInput?: (value: string) => void;
 };
 
+type EditorObject = {
+	getValue: () => string;
+};
+
 interface Window {
 	sunstarEditor: EditorState;
 }
