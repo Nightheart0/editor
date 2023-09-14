@@ -120,7 +120,7 @@ function setEditorValue(editor: HTMLDivElement, value: string) {
 	}
 }
 
-function init(div: HTMLDivElement, options: EditorOptions) {
+function init(div: HTMLDivElement, options: EditorOptions): EditorObject {
 	const strings = locales[options.locale ?? defaultOptions.locale as EditorSupportedLocale];
 
 	if (state.firstCall) {
@@ -212,6 +212,13 @@ function init(div: HTMLDivElement, options: EditorOptions) {
 	if (options.initialContents !== undefined) {
 		setEditorValue(div, options.initialContents);
 	}
+
+	return {
+		getValue: () => {
+			const value = getEditorValue(div);
+			return value;
+		},
+	};
 }
 
 function onFocus($editorElement: JQuery<HTMLDivElement>) {
