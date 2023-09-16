@@ -14,6 +14,8 @@
 .math-field {
 	padding-left: 3px;
 	padding-right: 3px;
+
+	user-select: all;
 }
 
 .math-field-closed {
@@ -23,6 +25,8 @@
 .math-field-closed math-field {
 	border-style: none;
 	border-width: 0;
+
+	user-select: all;
 }
 
 .math-field-closed math-field:hover {
