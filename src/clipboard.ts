@@ -13,6 +13,11 @@ const file2Base64 = (file: File): Promise<string> => {
 	});
 }
 
+function onCopy($editorDiv: JQuery<HTMLDivElement>, ev: ClipboardEvent) {
+	const selection = document.getSelection();
+	console.log(selection?.toString());
+}
+
 function onPaste($editorDiv: JQuery<HTMLDivElement>, e: JQuery.TriggeredEvent<HTMLDivElement, undefined, HTMLDivElement, HTMLDivElement>) {
 	const clipboardData = (e!.originalEvent as ClipboardEvent).clipboardData!;
     const file =
@@ -40,4 +45,4 @@ function onPaste($editorDiv: JQuery<HTMLDivElement>, e: JQuery.TriggeredEvent<HT
 	}
 }
 
-export { onPaste };
+export { onCopy, onPaste };

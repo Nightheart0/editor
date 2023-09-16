@@ -205,6 +205,12 @@ function init(div: HTMLDivElement, options: EditorOptions): EditorObject {
 
 			onDivInput();
 		})
+		.on('copy', (ev) => {
+			if (ev.originalEvent === null) return;
+			const event = ev.originalEvent as ClipboardEvent;
+
+			clipboard.onCopy($(div), event);
+		})
 		.on('paste', (e) => {
 			clipboard.onPaste($(div) as JQuery<HTMLDivElement>, e);
 		});
