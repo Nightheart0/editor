@@ -7,6 +7,7 @@ import 'rangy/lib/rangy-classapplier';
 
 import * as mathField from './math-field';
 import { init as initToolbars } from './toolbars';
+import { init as initHelpDialog } from './help-dialog';
 import { locales } from './locales';
 import * as clipboard from './clipboard';
 import * as utils from './utils';
@@ -38,7 +39,7 @@ const initialState: EditorState = {
 
 	$currentEditor: null,
 	$toolbar: null,
-	$helpOverlay: null,
+	$helpDialog: null,
 
 	firstCall: true,
 };
@@ -125,8 +126,12 @@ function init(div: HTMLDivElement, options: EditorOptions): EditorObject {
 
 	if (state.firstCall) {
 		state.firstCall = false;
+
 		state.$toolbar = initToolbars() as JQuery<HTMLDivElement>;
+		state.$helpDialog = initHelpDialog() as JQuery<HTMLDialogElement>;
+
 		$('body').append(state.$toolbar);
+		$('body').append(state.$helpDialog);
 	}
 
 	const onDivInput = () => {

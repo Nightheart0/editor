@@ -13,13 +13,13 @@ const gridButtonWidth = 35 /* px */;
 
 function init() {
 	const $toolbar = $(`
-	<div class="${styles.tools}" data-js="tools">
+	<div class="${styles.tools}" data-js="sunstar-editor-tools">
 		<div class="${styles['tools-button-wrapper']}">
 			<div class="${styles['toolbar-wrapper']}">
 				<button class="${styles['characters-expand-collapse']}" data-js="expandCollapseCharacters" style="z-index: 100"></button>
 			</div>
 			<div class="${styles['toolbar-wrapper']}">
-				<button class="${styles['help-button']}" data-js="richTextEditorHelp" style="z-index: 100"></button>
+				<button class="${styles['help-button']}" data-js="sunstar-editor-help" style="z-index: 100"></button>
 			</div>
 		</div>
 		<div class="${styles['tools-row']}">
@@ -43,6 +43,16 @@ function init() {
 	$toolbar
 		.on('mousedown', (e) => {
 			e.preventDefault();
+		})
+		.on('click', '[data-js="sunstar-editor-help"]', (ev) => {
+			if (window.sunstarEditor.$helpDialog === null) return;
+			if (window.sunstarEditor.$helpDialog.length === 0) return;
+
+			ev.preventDefault();
+			
+			const helpDialog: HTMLDialogElement = window.sunstarEditor.$helpDialog.get(0)!;
+
+			helpDialog.show();
 		})
 		.on('mousedown', '[data-js="expandCollapseCharacters"]', (e) => {
 			e.preventDefault();

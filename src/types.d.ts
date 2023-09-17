@@ -18,7 +18,7 @@ type EditorState = {
 
 	$currentEditor: JQuery<HTMLDivElement> | null;
 	$toolbar: JQuery<HTMLDivElement> | null;
-	$helpOverlay: JQuery<HTMLDivElement> | null;
+	$helpDialog: JQuery<HTMLDialogElement> | null;
 
 	firstCall: boolean;
 };
