@@ -210,19 +210,19 @@ function toggleStyle(selection: Selection, cssClass: string) {
 
 function getParagraph(node: Node): HTMLParagraphElement | null {
 	const searchParent = (searchNode: Node): HTMLParagraphElement | null => {
-		const parent = node.parentNode;
+		const parent = searchNode.parentNode;
 
 		if (parent === null) return null;
 		if (parent.nodeName === 'BODY') return null;
 
-		if (node.nodeName === 'P' && (node as HTMLParagraphElement).dataset['sunstar-editor-paragraph'] === 'true') {
-			return node as HTMLParagraphElement;
+		if (parent.nodeName === 'P') {
+			return parent as HTMLParagraphElement;
 		} else {
 			return searchParent(parent);
 		}
 	}
 
-	if (node.nodeName === 'P' && (node as HTMLParagraphElement).dataset['sunstar-editor-paragraph'] === 'true') {
+	if (node.nodeName === 'P') {
 		return node as HTMLParagraphElement;
 	} else {
 		return searchParent(node);
@@ -232,8 +232,6 @@ function getParagraph(node: Node): HTMLParagraphElement | null {
 function createParagraph(withContent?: string | Node) {
 	const pElement = document.createElement('p');
 	const brElement = document.createElement('br');
-
-	pElement.dataset['sunstar-editor-paragraph'] = 'true';
 
 	if (withContent) {
 		if (typeof withContent === 'string') {

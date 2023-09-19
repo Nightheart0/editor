@@ -205,8 +205,8 @@ function init(div: HTMLDivElement, options: EditorOptions): EditorObject {
 			onBlur($(div));
 		})
 		.on('input', (e) => {
-			if (div.lastChild === null) div.appendChild(document.createElement('br'));
-			if (div.lastChild!.nodeName !== 'BR') div.appendChild(document.createElement('br'));
+			if (div.lastChild === null) createInitialParagraph(div);
+			//if (div.lastChild!.nodeName !== 'BR') div.appendChild(document.createElement('br'));
 
 			onDivInput();
 		})
@@ -220,8 +220,10 @@ function init(div: HTMLDivElement, options: EditorOptions): EditorObject {
 			clipboard.onPaste($(div) as JQuery<HTMLDivElement>, e);
 		});
 	
-	if (options.initialContents !== undefined) {
+	if (options.initialContents !== undefined && options.initialContents !== '') {
 		setEditorValue(div, options.initialContents);
+	} else {
+		createInitialParagraph(div);
 	}
 
 	return {
@@ -257,6 +259,19 @@ function toggleRichTextToolbarAnimation() {
 	state.$toolbar
 		.addClass(animatingClass)
 		.one('transitionend transitioncancel', () => state.$toolbar!.removeClass(animatingClass));
+}
+
+function createInitialParagraph(div: HTMLDivElement) {
+	const textNode = document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string);
+	const paragraph = utils.createParagraph(textNode);
+
+	div.appendChild(paragraph);
+
+	const selection = document.getSelection();
+	if (!selection) return;
+
+	const range = selection.getRangeAt(0);
+	range.selectNode(textNode);
 }
 
 export { init };

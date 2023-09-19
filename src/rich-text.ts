@@ -5,17 +5,22 @@ import styles from './text-styles.module.css';
 function insertLinebreak() {
 	const selection = document.getSelection();
 
-	if (selection?.anchorNode?.parentElement?.tagName === 'SPAN') {
-		const br = document.createElement('br');
-		const parentElement: HTMLSpanElement = selection.anchorNode.parentElement as HTMLSpanElement;
-		parentElement.insertAdjacentElement('afterend', br);
+	if (selection === null) return;
+	if (selection.focusNode === null) return;
 
-		const range = selection.getRangeAt(0);
-		range.insertNode(br);
-		range.setStartAfter(br);
-		range.setEndAfter(br);
-	} else {
-		utils.insertAtCursor(document.createElement('br'));
+	const range = selection.getRangeAt(0);
+
+	const focusNode = selection.focusNode;
+	const paragraph = utils.getParagraph(focusNode);
+
+	if (paragraph) {
+		const textNode = document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string);
+		const newParagraph = utils.createParagraph(textNode);
+
+		paragraph.insertAdjacentElement('afterend', newParagraph);
+		range.setStartAfter(textNode);
+		range.setEndAfter(textNode);
+		range.selectNode(textNode);
 	}
 }
 
