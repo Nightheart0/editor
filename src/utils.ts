@@ -208,4 +208,52 @@ function toggleStyle(selection: Selection, cssClass: string) {
 	}
 }
 
-export { insertAtCursor, addClassToSelection, removeClassFromSelection, selectionHasClass, toggleStyle };
+function getParagraph(node: Node): HTMLParagraphElement | null {
+	const searchParent = (searchNode: Node): HTMLParagraphElement | null => {
+		const parent = node.parentNode;
+
+		if (parent === null) return null;
+		if (parent.nodeName === 'BODY') return null;
+
+		if (node.nodeName === 'P' && (node as HTMLParagraphElement).dataset['sunstar-editor-paragraph'] === 'true') {
+			return node as HTMLParagraphElement;
+		} else {
+			return searchParent(parent);
+		}
+	}
+
+	if (node.nodeName === 'P' && (node as HTMLParagraphElement).dataset['sunstar-editor-paragraph'] === 'true') {
+		return node as HTMLParagraphElement;
+	} else {
+		return searchParent(node);
+	}
+}
+
+function createParagraph(withContent?: string | Node) {
+	const pElement = document.createElement('p');
+	const brElement = document.createElement('br');
+
+	pElement.dataset['sunstar-editor-paragraph'] = 'true';
+
+	if (withContent) {
+		if (typeof withContent === 'string') {
+			pElement.innerText = withContent;
+		} else {
+			pElement.appendChild(withContent);
+		}
+	}
+	pElement.appendChild(brElement);
+
+	return pElement;
+}
+
+export {
+	insertAtCursor,
+	addClassToSelection,
+	removeClassFromSelection,
+	selectionHasClass,
+	toggleStyle,
+
+	getParagraph,
+	createParagraph,
+};
