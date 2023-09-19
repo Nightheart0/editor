@@ -5,6 +5,11 @@
 	min-height: 2em;
 }
 
+.sunstar-editor p {
+	display: block;
+	margin: 0;
+}
+
 .img {
 	display: inline;
 
