@@ -27,7 +27,7 @@ type EditorSupportedLocale = 'en';
 
 type EditorOptions = {
 	locale?: EditorSupportedLocale;
-	initialContents?: string;
+	initialValue?: string;
 
 	onInput?: (value: string) => void;
 };

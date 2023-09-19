@@ -220,8 +220,8 @@ function init(div: HTMLDivElement, options: EditorOptions): EditorObject {
 			clipboard.onPaste($(div) as JQuery<HTMLDivElement>, e);
 		});
 	
-	if (options.initialContents !== undefined && options.initialContents !== '') {
-		setEditorValue(div, options.initialContents);
+	if (options.initialValue !== undefined && options.initialValue !== '') {
+		setEditorValue(div, options.initialValue);
 	} else {
 		createInitialParagraph(div);
 	}
