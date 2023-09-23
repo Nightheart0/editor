@@ -296,8 +296,12 @@ function createInitialParagraph(div: HTMLDivElement) {
 	const selection = document.getSelection();
 	if (!selection) return;
 
-	const range = selection.getRangeAt(0);
-	range.selectNode(textNode);
+	try {
+		const range = selection.getRangeAt(0);
+		range.selectNode(textNode);
+	} catch {
+		console.log('Couldn\'t select node.');
+	}
 }
 
 export { init };
