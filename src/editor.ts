@@ -55,24 +55,39 @@ function getEditorValue(editor: HTMLDivElement): string {
 	let value = '';
 
 	editor.childNodes.forEach((child) => {
-		if (child.nodeType === Node.ELEMENT_NODE && child.nodeName === 'SPAN' && (child as HTMLSpanElement).hasAttribute('data-mathfield')) {
-			const span = child as HTMLSpanElement;
-			const mathField: ML.MathfieldElement | null = span.querySelector('math-field') as ML.MathfieldElement | null;
+		if (child.nodeType === Node.ELEMENT_NODE && child.nodeName === 'P') {
+			const pElement = child as HTMLParagraphElement;
+			const pChildren = pElement.childNodes;
 
-			if (mathField) {
-				value += `<math-field>`;
+			for (let i = 0; i < pChildren.length; i++) {
+				const pChild = pChildren[i];
 
-				const latex = mathField.getValue();
-				value += latex;
+				if (pChild.nodeType === Node.ELEMENT_NODE) {
+					if (pChild.nodeName === 'SPAN' && (pChild as HTMLSpanElement).hasAttribute('data-mathfield')) {
+						const span = pChild as HTMLSpanElement;
+						const mathField: ML.MathfieldElement | null = span.querySelector('math-field') as ML.MathfieldElement | null;
 
-				value += `</math-field>`
+						if (mathField) {
+							value += `<math-field>`;
+			
+							const latex = mathField.getValue();
+							value += latex;
+			
+							value += `</math-field>`
+						}
+					} else {
+						const element = pChild as HTMLElement;
+						value += element.outerHTML;
+					}
+				} else if (pChild.nodeType === Node.TEXT_NODE) {
+					value += pChild.textContent;
+				}
 			}
-		} else if (child.nodeType === Node.ELEMENT_NODE) {
-			const element = child as HTMLElement;
-			value += element.outerHTML;
+
+			value += '\n';
 		} else if (child.nodeType === Node.TEXT_NODE) {
 			value += child.textContent;
-		} 
+		}
 	});
 
 	return value;
@@ -80,8 +95,19 @@ function getEditorValue(editor: HTMLDivElement): string {
 
 function setEditorValue(editor: HTMLDivElement, value: string) {
 	const cleanValue = DOMPurify.sanitize(value, { ADD_TAGS: ['math-field'] });
+	let valueWithParagraphs = '';
+
+	const lines = cleanValue.split('\n');
+	if (lines.length > 1) {
+		for (const line of lines) {
+			valueWithParagraphs += `<p>${line}</p>`;
+		}
+	} else {
+		valueWithParagraphs = cleanValue;
+	}
+
 	const parser = new DOMParser();
-	const document = parser.parseFromString(cleanValue, 'text/html');
+	const document = parser.parseFromString(valueWithParagraphs, 'text/html');
 
 	const mathFields = document.body.querySelectorAll('math-field');
 	mathFields.forEach((mfe) => {
