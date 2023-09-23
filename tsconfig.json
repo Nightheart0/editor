@@ -18,7 +18,9 @@
 
 		"baseUrl": "./src",
 		"paths": {
-			"@i18n/*": ["../i18n/*"],
+			"@/i18n/*": ["./i18n/*"],
+			"@/i18n-data/*": ["../i18n/*"],
+			"@/styles/*": ["./styles/*"],
 		},
 
 		"typeRoots": ["./node_modules/@types"]
