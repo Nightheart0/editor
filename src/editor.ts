@@ -135,9 +135,9 @@ function setEditorValue(editor: HTMLDivElement, value: string) {
 
 	editor.innerHTML = document.body.innerHTML;
 
-	const $mathFields = $(editor).children('span[data-mathfield="true"]');
-	for (let i = 0; i < $mathFields.length; i++) {
-		const mathFieldSpan = $mathFields.get(i) as HTMLSpanElement;
+	const mathFields2 = editor.querySelectorAll('span[data-mathfield="true"]');
+	for (let i = 0; i < mathFields2.length; i++) {
+		const mathFieldSpan = mathFields2[i] as HTMLSpanElement;
 		const mathFieldElement = mathFieldSpan.querySelector('math-field');
 
 		if (mathFieldElement === null) continue;
