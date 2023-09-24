@@ -21,6 +21,7 @@
 			"@/i18n/*": ["./i18n/*"],
 			"@/i18n-data/*": ["../i18n/*"],
 			"@/styles/*": ["./styles/*"],
+			"@/utils/*": ["./utils/*"],
 		},
 
 		"typeRoots": ["./node_modules/@types"]

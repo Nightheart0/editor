@@ -51,6 +51,7 @@ module.exports = {
 			'@/i18n': path.resolve(__dirname, 'src', 'i18n'),
 			'@/i18n-data': path.resolve(__dirname, 'i18n'),
 			'@/styles': path.resolve(__dirname, 'src', 'styles'),
+			'@/utils': path.resolve(__dirname, 'src', 'utils'),
 		},
 	},
 
