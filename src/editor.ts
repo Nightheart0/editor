@@ -8,7 +8,7 @@ import 'rangy/lib/rangy-classapplier';
 import * as mathField from './math-field';
 import { init as initToolbars } from './toolbars';
 import { init as initHelpDialog } from './help-dialog';
-import { locales } from './locales';
+import { locales } from './i18n/locales';
 import * as clipboard from './clipboard';
 import * as utils from './utils';
 import * as richText from './rich-text';

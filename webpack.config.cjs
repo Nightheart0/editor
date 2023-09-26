@@ -22,7 +22,7 @@ function getMode() {
 module.exports = {
 	mode: getMode(),
 	entry: {
-		editor: './src/bundle-main.ts',
+		editor: './src/index.ts',
 	},
 	output: {
 		filename: '[name].bundle.js',
