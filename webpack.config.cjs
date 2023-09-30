@@ -33,12 +33,17 @@ module.exports = {
 	module: {
 		rules: [
 			{
+				resourceQuery: /raw/,
+				type: 'asset/source',
+			},
+			{
 				test: /\.tsx?$/,
 				use: 'ts-loader',
 				exclude: /node_modules/,
 			},
 			{
 				test: /\.css$/i,
+				resourceQuery: { not: [/raw/] },
 				use: ['style-loader', 'css-loader'],
 			},
 		]
