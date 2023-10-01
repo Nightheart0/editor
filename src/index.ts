@@ -91,7 +91,7 @@ if (isBrowser()) {
 
 	// Define the `<sunstar-editor>` custom element
 	if (!window.sunstar.SunstarEditorElement) window.sunstar.SunstarEditorElement = SunstarEditorElement;
-	if (window.customElements && !window.customElements.get('math-field')) {
+	if (window.customElements && !window.customElements.get('sunstar-editor')) {
 		customElements.define('sunstar-editor', SunstarEditorElement);
 	}
 }

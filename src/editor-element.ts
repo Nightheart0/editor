@@ -1,4 +1,5 @@
-import styles from '@/styles/sunstar-editor.css';
+// @ts-ignore
+import styles from '@/styles/sunstar-editor.css?raw';
 
 /**
  * The `SunstarEditorElement` class is the DOM element responsible for displaying the editor.
