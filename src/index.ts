@@ -3,7 +3,6 @@ import * as rangy from 'rangy';
 import 'rangy/lib/rangy-classapplier';
 
 import { SunstarEditorElement } from './editor-element';
-import { init } from './editor';
 import { init as initToolbars } from './toolbars';
 import { init as initHelpDialog } from './help-dialog';
 import { isBrowser } from './utils/supported-features';

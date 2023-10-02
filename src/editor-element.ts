@@ -1,3 +1,5 @@
+import { initCore } from '@/editor/editor-core';
+
 // @ts-ignore
 import styles from '@/styles/sunstar-editor.css?raw';
 
@@ -29,6 +31,8 @@ class SunstarEditorElement extends HTMLElement {
 		editorDiv.classList.add('sunstar-editor');
 
 		this.shadowRoot.append(styleElement, editorDiv);
+
+		initCore(this, editorDiv);
 	}
 
 	get value(): string {
