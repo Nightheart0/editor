@@ -18,6 +18,8 @@
 
 		"baseUrl": "./src",
 		"paths": {
+			"@/*": ["./*"],
+			"@/editor/*": ["./editor/*"],
 			"@/i18n/*": ["./i18n/*"],
 			"@/i18n-data/*": ["../i18n/*"],
 			"@/styles/*": ["./styles/*"],

@@ -53,6 +53,8 @@ module.exports = {
 
 		// Remember to tell TypeScript about the paths in `tsconfig.json`
 		alias: {
+			'@/': path.resolve(__dirname, 'src'),
+			'@/editor': path.resolve(__dirname, 'src', 'editor'),
 			'@/i18n': path.resolve(__dirname, 'src', 'i18n'),
 			'@/i18n-data': path.resolve(__dirname, 'i18n'),
 			'@/styles': path.resolve(__dirname, 'src', 'styles'),
@@ -72,6 +74,7 @@ module.exports = {
 				publicPath: '/sounds',
 			},
 		],
+		open: false,
 	},
 	plugins: [
 		new HtmlWebpackPlugin({

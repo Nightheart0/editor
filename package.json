@@ -4,7 +4,7 @@
   "packageManager": "yarn@3.6.1",
   "scripts": {
     "build": "webpack --config webpack.config.cjs",
-    "start": "webpack serve --open --config webpack.config.cjs"
+    "start": "webpack serve --no-open --config webpack.config.cjs"
   },
   "devDependencies": {
     "@types/dompurify": "^3.0.2",
