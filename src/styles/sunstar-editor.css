@@ -5,6 +5,7 @@ Styles for the `<sunstar-editor>` element.
 /* Targets the <sunstar-editor> element */
 :host {
 	display: block;
+	min-height: 1em;
 }
 
 /* The div inside the shadow root of the <sunstar-editor> custom element */
