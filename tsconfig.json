@@ -23,6 +23,7 @@
 			"@/i18n/*": ["./i18n/*"],
 			"@/i18n-data/*": ["../i18n/*"],
 			"@/styles/*": ["./styles/*"],
+			"@/toolbar/*": ["./toolbar/*"],
 			"@/utils/*": ["./utils/*"],
 		},
 

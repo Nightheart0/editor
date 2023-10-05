@@ -1,7 +1,5 @@
 import { insertAtCursor } from './utils';
 
-import editorStyles from './editor.module.css'
-
 const fileTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
 
 const file2Base64 = (file: File): Promise<string> => {
@@ -18,22 +16,22 @@ function onCopy($editorDiv: JQuery<HTMLDivElement>, ev: ClipboardEvent) {
 	console.log(selection?.toString());
 }
 
-function onPaste($editorDiv: JQuery<HTMLDivElement>, e: JQuery.TriggeredEvent<HTMLDivElement, undefined, HTMLDivElement, HTMLDivElement>) {
-	const clipboardData = (e!.originalEvent as ClipboardEvent).clipboardData!;
-    const file =
+function onPaste($editorDiv: JQuery<HTMLDivElement>, ev: ClipboardEvent) {
+	const clipboardData = ev.clipboardData!;
+	const file =
 		clipboardData.items &&
 		clipboardData.items.length > 0 &&
 		clipboardData.items[clipboardData.items.length - 1].getAsFile();
 	
 	if (file) {
-		e.preventDefault();
+		ev.preventDefault();
 		if (fileTypes.indexOf(file.type) >= 0) {
 			file2Base64(file)
 				.then((value) => {
 					const img = document.createElement('img');
 
 					img.src = value;
-					img.className = editorStyles.img;
+					img.className = 'img';
 
 					insertAtCursor(img);
 				})

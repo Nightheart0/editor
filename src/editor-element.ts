@@ -28,7 +28,6 @@ class SunstarEditorElement extends HTMLElement {
 
 		this.editorDiv = document.createElement('div');
 
-		this.editorDiv.contentEditable = 'true';
 		this.editorDiv.spellcheck = false;
 		this.editorDiv.dataset.js = 'sunstar-editor';
 		this.editorDiv.classList.add('sunstar-editor');

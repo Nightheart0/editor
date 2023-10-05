@@ -200,11 +200,11 @@
 	bottom: 0;
 	width: 20px;
 	margin-right: 8px;
-	background: url('../assets/expand.svg') 50% 50% no-repeat;
+	background: url('@/assets/expand.svg') 50% 50% no-repeat;
 }
 
 .show-all-characters .characters-expand-collapse {
-	background-image: url('../assets/collapse.svg');
+	background-image: url('@/assets/collapse.svg');
 }
 
 .help-button {
@@ -213,7 +213,7 @@
 	right: 0;
 	width: 35px;
 	height: 35px;
-	background: url('../assets/helpButton.svg') no-repeat 50% 50%;
+	background: url('@/assets/helpButton.svg') no-repeat 50% 50%;
 	border: none;
 	cursor: pointer;
 	display: block;
@@ -238,13 +238,13 @@
 
 .toolbar .undo-button,
 .toolbar .undo-button:hover {
-	background-image: url('../assets/undoButton.svg');
+	background-image: url('@/assets/undoButton.svg');
 	margin-right: 5px;
 }
 
 .toolbar .redo-button,
 .toolbar .redo-button:hover {
-	background-image: url('../assets/redoButton.svg');
+	background-image: url('@/assets/redoButton.svg');
 }
 
 .undo-redo:disabled {

@@ -1,9 +1,7 @@
 import $ from 'jquery';
 import * as ML from 'mathlive';
 
-import * as utils from './utils';
-
-import styles from './editor.module.css';
+import * as utils from '@/utils/utils';
 
 function newMathField($editorDiv: JQuery<HTMLDivElement>) {
 	const span = document.createElement('span');
@@ -25,8 +23,8 @@ function initializeSpan(span: HTMLSpanElement) {
 	span.contentEditable = 'false';
 	span.dataset.mathfield = 'true';
 
-	span.classList.add(styles['math-field']);
-	span.classList.add(styles['math-field-closed']);
+	span.classList.add('math-field');
+	span.classList.add('math-field-closed');
 }
 
 function initializeLaTeXEditor(span: HTMLSpanElement, mfe: ML.MathfieldElement) {
@@ -121,8 +119,8 @@ function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HT
 function onFocus(mfe: ML.MathfieldElement, span: HTMLSpanElement, e: FocusEvent) {
 	if (mfe.readOnly === true) mfe.readOnly = false;
 
-	if (span.classList.contains(styles['math-field-closed'])) span.classList.remove(styles['math-field-closed']);
-	if (!span.classList.contains(styles['math-field-open'])) span.classList.add(styles['math-field-open']);
+	if (span.classList.contains('math-field-closed')) span.classList.remove('math-field-closed');
+	if (!span.classList.contains('math-field-open')) span.classList.add('math-field-open');
 }
 
 function onBlur(mfe: ML.MathfieldElement, span: HTMLSpanElement, e: FocusEvent) {
@@ -130,8 +128,8 @@ function onBlur(mfe: ML.MathfieldElement, span: HTMLSpanElement, e: FocusEvent) 
 
 	mfe.readOnly = true;
 
-	if (!span.classList.contains(styles['math-field-closed'])) span.classList.add(styles['math-field-closed']);
-	if (span.classList.contains(styles['math-field-open'])) span.classList.remove(styles['math-field-open']);
+	if (!span.classList.contains('math-field-closed')) span.classList.add('math-field-closed');
+	if (span.classList.contains('math-field-open')) span.classList.remove('math-field-open');
 
 	if (mfe.value === '') {
 		const editorDiv = mfe.parentElement?.parentElement;

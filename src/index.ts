@@ -3,12 +3,12 @@ import * as rangy from 'rangy';
 import 'rangy/lib/rangy-classapplier';
 
 import { SunstarEditorElement } from './editor-element';
-import { init as initToolbars } from './toolbars';
+import { init as initToolbars } from './toolbar/toolbars';
 import { init as initHelpDialog } from './help-dialog';
 import { isBrowser } from './utils/supported-features';
 import * as version from './version';
 
-import textStyles from './text-styles.module.css';
+import textStyles from '@/styles/text-styles.module.css';
 
 interface EditorState {
 	focus: {

@@ -3,6 +3,8 @@ function insertAtCursor(nodeOrString: Node | string) {
 		const selection = window.getSelection();
 		if (selection === null) return;
 
+		console.log(selection);
+
 		const range = selection.getRangeAt(0);
 		range.deleteContents();
 

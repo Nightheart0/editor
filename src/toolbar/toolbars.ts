@@ -1,11 +1,10 @@
 import $ from 'jquery';
 
-import { newMathField } from './math-field';
-import { insertAtCursor } from './utils';
+import { newMathField } from '@/editor/math-field';
 import { specialCharacterGroups} from './special-characters';
 import type { Character as SpecialCharacter, Group as SpecialCharacterGroup } from './special-characters';
 import latexCommandsWithSvg from './latex-commands-svg';
-import * as richText from './rich-text';
+import * as richText from '@/editor/rich-text';
 
 import styles from './toolbars.module.css';
 
@@ -195,9 +194,9 @@ function initMathToolbar($mathToolbar: JQuery<HTMLDivElement>) {
 }
 
 function initInsertEquation($insertEquation: JQuery<HTMLButtonElement>) {
-	$insertEquation.on('mousedown', (e) => {
-		if (window.sunstarEditor.$currentEditor === null) return;
-		newMathField(window.sunstarEditor.$currentEditor);
+	$insertEquation.on('mousedown', (ev) => {
+		if (window.sunstar.editorState.$currentEditor === null) return;
+		newMathField(window.sunstar.editorState.$currentEditor);
 	});
 }
 

@@ -1,6 +1,6 @@
-import * as utils from './utils';
+import * as utils from '@/utils/utils';
 
-import styles from './text-styles.module.css';
+import styles from '@/styles/text-styles.module.css';
 
 function insertLinebreak() {
 	const selection = document.getSelection();

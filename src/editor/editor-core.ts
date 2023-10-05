@@ -1,28 +1,76 @@
 import $ from 'jquery';
 
 import { SunstarEditorElement } from "@/editor-element";
+import * as richText from '@/editor/rich-text';
+import * as mathField from '@/editor/math-field';
+import * as utils from '@/utils/utils';
+import * as clipboard from '@/utils/clipboard';
 
-import toolbarStyles from '../toolbars.module.css';
+import toolbarStyles from '@/toolbar/toolbars.module.css';
 
 function initCore(editor: SunstarEditorElement, editorDiv: HTMLDivElement) {
 	editorDiv.addEventListener('focus', (ev) => onFocus(editorDiv, ev));
 	editorDiv.addEventListener('blur', (ev) => onBlur(editorDiv, ev));
 
 	editorDiv.addEventListener('keydown', (ev) => {
+		if (ev.ctrlKey) {
+			switch (ev.code) {
+				case 'KeyE':
+					ev.preventDefault();
+					mathField.newMathField($(editorDiv));
 
+					break;
+				case 'KeyB':
+					ev.preventDefault();
+					richText.toggleBold();
+
+					break;
+				case 'KeyI':
+					ev.preventDefault();
+					richText.toggleItalic();
+
+					break;
+				case 'KeyU':
+					ev.preventDefault();
+					richText.toggleUnderline();
+
+					break;
+				case 'KeyD':
+					ev.preventDefault();
+					richText.toggleStrikethrough();
+
+					break;
+				case 'Comma':
+					ev.preventDefault();
+					richText.toggleSubscript();
+
+					break;
+				case 'Period':
+					ev.preventDefault();
+					richText.toggleSuperscript();
+
+					break;
+				default:
+					// Do nothing
+			}
+		}
+
+		if (ev.code === 'Enter') {
+			ev.preventDefault();
+			richText.insertLinebreak();
+		}
 	});
 
 	editorDiv.addEventListener('input', (ev) => {
-
+		if (editorDiv.lastChild === null) createInitialParagraph(editorDiv);
+		//onDivInput();
 	});
 
-	editorDiv.addEventListener('copy', (ev) => {
+	editorDiv.addEventListener('copy', (ev) => clipboard.onCopy($(editorDiv), ev));
+	editorDiv.addEventListener('paste', (ev) => clipboard.onPaste($(editorDiv) as JQuery<HTMLDivElement>, ev));
 
-	});
-
-	editorDiv.addEventListener('paste', (ev) => {
-
-	});
+	createInitialParagraph(editorDiv);
+	editorDiv.contentEditable = 'true';
 }
 
 function onFocus(editorDiv: HTMLDivElement, ev: FocusEvent) {
@@ -57,6 +105,23 @@ function toggleToolbarAnimation() {
 	state.$toolbar
 		.addClass(animatingClass)
 		.one('transitionend transitioncancel', () => state.$toolbar!.removeClass(animatingClass));
+}
+
+function createInitialParagraph(div: HTMLDivElement) {
+	const textNode = document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string);
+	const paragraph = utils.createParagraph(textNode);
+
+	div.appendChild(paragraph);
+
+	const selection = document.getSelection();
+	if (!selection) return;
+
+	try {
+		const range = selection.getRangeAt(0);
+		range.selectNode(textNode);
+	} catch {
+		console.log('Couldn\'t select node.');
+	}
 }
 
 export { initCore };
