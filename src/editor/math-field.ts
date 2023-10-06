@@ -3,7 +3,7 @@ import * as ML from 'mathlive';
 
 import * as utils from '@/utils/utils';
 
-function newMathField($editorDiv: JQuery<HTMLDivElement>) {
+function newMathField($editorDiv: JQuery<HTMLDivElement>, selection?: Selection) {
 	const span = document.createElement('span');
 	const mfe = new ML.MathfieldElement();
 
@@ -15,7 +15,12 @@ function newMathField($editorDiv: JQuery<HTMLDivElement>) {
 	initializeLaTeXEditor(span, mfe);
 	//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
 
-	utils.insertAtCursor(span);
+	if (selection) {
+		utils.insertAtCursor(span, selection);
+	} else {
+		utils.insertAtCursor(span);
+	}
+
 	setTimeout(() => mfe.focus(), 0);
 }
 

@@ -9,6 +9,8 @@ import * as clipboard from '@/utils/clipboard';
 import toolbarStyles from '@/toolbar/toolbars.module.css';
 
 function initCore(editor: SunstarEditorElement, editorDiv: HTMLDivElement) {
+	const shadow = editor.shadowRoot as ShadowRoot; // The shadow root will 100% sure exist by this point
+
 	editorDiv.addEventListener('focus', (ev) => onFocus(editorDiv, ev));
 	editorDiv.addEventListener('blur', (ev) => onBlur(editorDiv, ev));
 
@@ -17,7 +19,14 @@ function initCore(editor: SunstarEditorElement, editorDiv: HTMLDivElement) {
 			switch (ev.code) {
 				case 'KeyE':
 					ev.preventDefault();
-					mathField.newMathField($(editorDiv));
+
+					// @ts-ignore - Chromium-specific way of getting the selection in a shadow root
+					if (shadow.getSelection) {
+						// @ts-ignore
+						mathField.newMathField($(editorDiv), shadow.getSelection());
+					} else {
+						mathField.newMathField($(editorDiv));
+					}
 
 					break;
 				case 'KeyB':
