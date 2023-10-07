@@ -3,12 +3,27 @@ import * as utils from '@/utils/utils';
 import styles from '@/styles/text-styles.module.css';
 
 function insertLinebreak() {
-	const selection = document.getSelection();
+	const state = window.sunstar.editorState;
+	const activeEditor = state.activeEditor;
+
+	if (activeEditor === null) return;
+
+	const shadow = activeEditor.shadowRoot as ShadowRoot;
+
+	let selection: Selection | null;
+	// @ts-ignore
+	if (shadow.getSelection) {
+		// @ts-ignore
+		selection = shadow.getSelection();
+	} else {
+		selection = document.getSelection();
+	}
 
 	if (selection === null) return;
 	if (selection.focusNode === null) return;
 
 	const range = selection.getRangeAt(0);
+	console.log(range);
 
 	const focusNode = selection.focusNode;
 	const paragraph = utils.getParagraph(focusNode);
@@ -19,8 +34,7 @@ function insertLinebreak() {
 
 		paragraph.insertAdjacentElement('afterend', newParagraph);
 		range.setStartAfter(textNode);
-		range.setEndAfter(textNode);
-		range.selectNode(textNode);
+		range.selectNodeContents(textNode);
 	}
 }
 
