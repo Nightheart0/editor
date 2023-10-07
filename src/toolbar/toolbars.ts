@@ -1,5 +1,6 @@
 import $ from 'jquery';
 
+import { SunstarEditorElement } from '@/editor-element';
 import { newMathField } from '@/editor/math-field';
 import { specialCharacterGroups} from './special-characters';
 import type { Character as SpecialCharacter, Group as SpecialCharacterGroup } from './special-characters';
@@ -196,7 +197,9 @@ function initMathToolbar($mathToolbar: JQuery<HTMLDivElement>) {
 function initInsertEquation($insertEquation: JQuery<HTMLButtonElement>) {
 	$insertEquation.on('mousedown', (ev) => {
 		if (window.sunstar.editorState.$currentEditor === null) return;
-		newMathField(window.sunstar.editorState.$currentEditor);
+		if (window.sunstar.editorState.activeEditor === null) return;
+
+		newMathField(window.sunstar.editorState.activeEditor, window.sunstar.editorState.$currentEditor);
 	});
 }
 

@@ -1,25 +1,33 @@
 import $ from 'jquery';
 import * as ML from 'mathlive';
 
+import { SunstarEditorElement } from '@/editor-element';
 import * as utils from '@/utils/utils';
 
-function newMathField($editorDiv: JQuery<HTMLDivElement>, selection?: Selection) {
+function newMathField(editor: SunstarEditorElement, $editorDiv: JQuery<HTMLDivElement>) {
+	const shadow = editor.shadowRoot as ShadowRoot;
+
 	const span = document.createElement('span');
 	const mfe = new ML.MathfieldElement();
 
 	initializeSpan(span);
-	addMathFieldEventListeners($editorDiv, span, mfe);
+	addMathFieldEventListeners(editor, $editorDiv, span, mfe);
 
 	//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
 	span.appendChild(mfe);
 	initializeLaTeXEditor(span, mfe);
 	//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
 
-	if (selection) {
-		utils.insertAtCursor(span, selection);
+	let selection: Selection | null
+
+	// @ts-ignore
+	if (shadow.getSelection) {
+		// @ts-ignore
+		selection = shadow.getSelection();
 	} else {
-		utils.insertAtCursor(span);
+		selection = window.getSelection();
 	}
+	utils.insertAtCursor(span, selection as Selection);
 
 	setTimeout(() => mfe.focus(), 0);
 }
@@ -51,7 +59,7 @@ function initializeLaTeXEditor(span: HTMLSpanElement, mfe: ML.MathfieldElement) 
 	span.appendChild(textarea);
 }
 
-function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HTMLSpanElement, mfe: ML.MathfieldElement) {
+function addMathFieldEventListeners(editor: SunstarEditorElement, $editorDiv: JQuery<HTMLDivElement>, span: HTMLSpanElement, mfe: ML.MathfieldElement) {
 	mfe.mathModeSpace = '\\:';
 
 	mfe.addEventListener('click', (e) => {
@@ -105,7 +113,7 @@ function addMathFieldEventListeners($editorDiv: JQuery<HTMLDivElement>, span: HT
 				$(mfe).parent().remove();
 			} else {
 				utils.insertAtCursor(document.createElement('br'));
-				newMathField($editorDiv);
+				newMathField(editor, $editorDiv);
 			}
 		};
 	});

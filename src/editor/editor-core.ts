@@ -19,14 +19,7 @@ function initCore(editor: SunstarEditorElement, editorDiv: HTMLDivElement) {
 			switch (ev.code) {
 				case 'KeyE':
 					ev.preventDefault();
-
-					// @ts-ignore - Chromium-specific way of getting the selection in a shadow root
-					if (shadow.getSelection) {
-						// @ts-ignore
-						mathField.newMathField($(editorDiv), shadow.getSelection());
-					} else {
-						mathField.newMathField($(editorDiv));
-					}
+					mathField.newMathField(editor, $(editorDiv));
 
 					break;
 				case 'KeyB':
