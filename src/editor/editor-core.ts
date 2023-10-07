@@ -11,8 +11,8 @@ import toolbarStyles from '@/toolbar/toolbars.module.css';
 function initCore(editor: SunstarEditorElement, editorDiv: HTMLDivElement) {
 	const shadow = editor.shadowRoot as ShadowRoot; // The shadow root will 100% sure exist by this point
 
-	editorDiv.addEventListener('focus', (ev) => onFocus(editorDiv, ev));
-	editorDiv.addEventListener('blur', (ev) => onBlur(editorDiv, ev));
+	editorDiv.addEventListener('focus', (ev) => onFocus(editor, editorDiv, ev));
+	editorDiv.addEventListener('blur', (ev) => onBlur(editor, editorDiv, ev));
 
 	editorDiv.addEventListener('keydown', (ev) => {
 		if (ev.ctrlKey) {
@@ -82,17 +82,20 @@ function initCore(editor: SunstarEditorElement, editorDiv: HTMLDivElement) {
 	editorDiv.contentEditable = 'true';
 }
 
-function onFocus(editorDiv: HTMLDivElement, ev: FocusEvent) {
+function onFocus(editor: SunstarEditorElement, editorDiv: HTMLDivElement, ev: FocusEvent) {
 	let state = window.sunstar.editorState;
+
+	state.activeEditor = editor;
 	state.$currentEditor = $(editorDiv);
 
 	toggleToolbarAnimation();
 	toggleToolbar(true);
 }
 
-function onBlur(editorDiv: HTMLDivElement, ev: FocusEvent) {
+function onBlur(editor: SunstarEditorElement, editorDiv: HTMLDivElement, ev: FocusEvent) {
 	let state = window.sunstar.editorState;
 
+	if (state.activeEditor === editor) state.activeEditor = null;
 	if (state.$currentEditor?.get(0) === editorDiv) {
 		state.$currentEditor = null;
 	}

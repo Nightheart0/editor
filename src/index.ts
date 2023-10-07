@@ -25,6 +25,8 @@ interface EditorState {
 		superscript: any;
 	};
 
+	activeEditor: SunstarEditorElement | null;
+
 	$currentEditor: JQuery<HTMLDivElement> | null;
 	$toolbar: JQuery<HTMLDivElement>;
 	$helpDialog: JQuery<HTMLDialogElement>;
@@ -78,6 +80,8 @@ if (isBrowser()) {
 			subscript: (rangy as any).createClassApplier(textStyles.subscript),
 			superscript: (rangy as any).createClassApplier(textStyles.superscript),
 		},
+
+		activeEditor: null,
 	
 		$currentEditor: null,
 		$toolbar: initToolbars() as JQuery<HTMLDivElement>,
