@@ -1,26 +1,43 @@
-function insertAtCursor(nodeOrString: Node | string, selection?: Selection) {
-	if (selection === undefined) {
-		const windowSelection = window.getSelection();
-		if (windowSelection !== null) {
-			selection = windowSelection;
-		} else {
-			return;
-		}
-	}
+function insertAtCursor(nodeOrString: Node | string) {
+	const state = window.sunstar.editorState;
+	const activeEditor = state.activeEditor;
+	const $currentEditor = state.$currentEditor;
+
+	if (activeEditor === null || $currentEditor === null) return;
+
+	const shadow = activeEditor.shadowRoot as ShadowRoot;
+	const editorDiv: HTMLDivElement = $currentEditor.get(0)!;
+
+	const selection: Selection = (shadow as any).getSelection !== undefined ? (shadow as any).getSelection() : window.getSelection()!;
 
 	const range = selection.getRangeAt(0);
 	range.deleteContents();
 
+	editorDiv.focus();
 	if (typeof nodeOrString === 'string') {
 		const textNode = document.createTextNode(nodeOrString);
 
 		range.insertNode(textNode);
-		range.setStartAfter(textNode);
-		range.setEndAfter(textNode);
+
+		const windowSelection = window.getSelection();
+		if (windowSelection) {
+			const windowRange = windowSelection.getRangeAt(0);
+
+			windowRange.setStartAfter(textNode);
+			windowRange.setEndAfter(textNode);
+			windowRange.collapse();
+		}
 	} else {
 		range.insertNode(nodeOrString);
-		range.setStartAfter(nodeOrString);
-		range.setEndAfter(nodeOrString);
+		
+		const windowSelection = window.getSelection();
+		if (windowSelection) {
+			const windowRange = windowSelection.getRangeAt(0);
+
+			windowRange.setStartAfter(nodeOrString);
+			windowRange.setEndAfter(nodeOrString);
+			windowRange.collapse();
+		}
 	}
 }
 

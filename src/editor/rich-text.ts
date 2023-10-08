@@ -131,14 +131,9 @@ function decreaseIndent() {
 
 }
 
-function insertCharacterButonClick(e: JQuery.MouseDownEvent) {
-	const character: string = e.currentTarget.innerText;
-	//const command = e.currentTarget.dataset.command;
-	//const useWrite = e.currentTarget.dataset.usewrite === 'true';
-
-	if (window.sunstarEditor.$currentEditor !== null) {
-		utils.insertAtCursor(character);
-	}
+function insertCharacterButonClick(ev: JQuery.MouseDownEvent) {
+	const character: string = ev.currentTarget.innerText;
+	utils.insertAtCursor(character);
 }
 
 export {

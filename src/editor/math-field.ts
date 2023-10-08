@@ -18,16 +18,7 @@ function newMathField(editor: SunstarEditorElement, $editorDiv: JQuery<HTMLDivEl
 	initializeLaTeXEditor(span, mfe);
 	//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
 
-	let selection: Selection | null
-
-	// @ts-ignore
-	if (shadow.getSelection) {
-		// @ts-ignore
-		selection = shadow.getSelection();
-	} else {
-		selection = window.getSelection();
-	}
-	utils.insertAtCursor(span, selection as Selection);
+	utils.insertAtCursor(span);
 
 	setTimeout(() => mfe.focus(), 0);
 }
