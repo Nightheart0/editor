@@ -1,3 +1,5 @@
+import { SunstarEditorElement } from '@/editor-element';
+
 function insertAtCursor(nodeOrString: Node | string) {
 	const state = window.sunstar.editorState;
 	const activeEditor = state.activeEditor;
@@ -266,6 +268,31 @@ function createParagraph(withContent?: string | Node) {
 	return pElement;
 }
 
+/**
+ * A utility function that returns the current selection.
+ * This is needed because on Chromium `window.getSelection()` (annoyingly) ignores custom elements
+ * with shadow roots and instead exposes the non-standard `ShadowRoot.getSelection()` for that purpose.
+ * 
+ * On other browsers returns `window.getSelection()`.
+ * 
+ * @param editor The `<sunstar-editor>` element in which to get the selection
+ * @returns The current selection
+ */
+function getSelection(editor?: SunstarEditorElement): Selection | null {
+	if (editor) {
+		const shadow = editor.shadowRoot;
+		if (!shadow) return null;
+
+		if ((shadow as any).getSelection) {
+			return (shadow as any).getSelection() as Selection | null;
+		} else {
+			return window.getSelection();
+		}
+	} else {
+		return window.getSelection();
+	}
+}
+
 export {
 	insertAtCursor,
 	addClassToSelection,
@@ -275,4 +302,6 @@ export {
 
 	getParagraph,
 	createParagraph,
+
+	getSelection,
 };
