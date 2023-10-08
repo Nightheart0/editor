@@ -2,6 +2,7 @@ import $ from 'jquery';
 import * as ML from 'mathlive';
 
 import { SunstarEditorElement } from '@/editor-element';
+import * as richText from '@/editor/rich-text';
 import * as utils from '@/utils/utils';
 
 function newMathField(editor: SunstarEditorElement, $editorDiv: JQuery<HTMLDivElement>) {
@@ -103,7 +104,7 @@ function addMathFieldEventListeners(editor: SunstarEditorElement, $editorDiv: JQ
 			if (mfe.value === '') {
 				$(mfe).parent().remove();
 			} else {
-				utils.insertAtCursor(document.createElement('br'));
+				richText.insertLinebreak();
 				newMathField(editor, $editorDiv);
 			}
 		};
