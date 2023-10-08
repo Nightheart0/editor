@@ -8,33 +8,25 @@ function insertLinebreak() {
 
 	if (activeEditor === null) return;
 
-	const shadow = activeEditor.shadowRoot as ShadowRoot;
-
-	let selection: Selection | null;
-	// @ts-ignore
-	if (shadow.getSelection) {
-		// @ts-ignore
-		selection = shadow.getSelection();
-	} else {
-		selection = document.getSelection();
-	}
+	const selection = utils.getSelection(activeEditor);
 
 	if (selection === null) return;
 	if (selection.focusNode === null) return;
-
-	const range = selection.getRangeAt(0);
-	console.log(range);
 
 	const focusNode = selection.focusNode;
 	const paragraph = utils.getParagraph(focusNode);
 
 	if (paragraph) {
-		const textNode = document.createTextNode(new DOMParser().parseFromString('&ZeroWidthSpace;', 'text/html').documentElement.textContent as string);
-		const newParagraph = utils.createParagraph(textNode);
+		const newParagraph = utils.createParagraph();
 
 		paragraph.insertAdjacentElement('afterend', newParagraph);
-		range.setStartAfter(textNode);
-		range.selectNodeContents(textNode);
+
+		const windowSelection = window.getSelection();
+		if (windowSelection) {
+			const windowRange = windowSelection.getRangeAt(0);
+
+			windowRange.selectNodeContents(newParagraph);
+		}
 	}
 }
 
