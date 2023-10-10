@@ -136,6 +136,11 @@ function initToolsToolbar($toolbar: JQuery<HTMLDivElement>) {
 
 function bindToolbarButtonClick($toolbar: JQuery<HTMLDivElement>) {
 	$toolbar.on('mousedown', 'button', (e) => {
+		const state = window.sunstar.editorState;
+		const activeEditor = state.activeEditor;
+
+		if (activeEditor === null) return;
+
 		e.preventDefault();
 
 		const buttonType: string = e.currentTarget.dataset.buttontype;
@@ -155,6 +160,10 @@ function bindToolbarButtonClick($toolbar: JQuery<HTMLDivElement>) {
 			richText.toggleSubscript();
 		} else if (command === 'superscript') {
 			richText.toggleSuperscript();
+		} else if (command === 'increase-indent') {
+			richText.increaseIndent(activeEditor);
+		} else if (command === 'decrease-indent') {
+			richText.decreaseIndent(activeEditor);
 		}
 	});
 }

@@ -1,3 +1,4 @@
+import { SunstarEditorElement } from '@/editor-element';
 import * as utils from '@/utils/utils';
 
 import styles from '@/styles/text-styles.module.css';
@@ -108,19 +109,43 @@ function toggleSuperscript() {
 	}
 }
 
-function increaseIndent(editorDiv: HTMLDivElement, selection: Selection) {
-	const range = selection.getRangeAt(0);
-	const startContainer = range.startContainer;
+function increaseIndent(editor: SunstarEditorElement) {
+	const selection = utils.getSelection(editor);
+	if (selection === null) return;
 
-	if (startContainer === editorDiv) {
-		const startOffset = range.startOffset;
-	} else if (startContainer.parentNode === editorDiv) {
+	const focusNode = selection.focusNode;
+	if (focusNode === null) return;
 
+	const paragraph = utils.getParagraph(focusNode);
+	if (paragraph) {
+		if (paragraph.style.paddingLeft !== undefined && paragraph.style.paddingLeft !== null && paragraph.style.paddingLeft !== '') {
+			const existingPadding = Number.parseInt(paragraph.style.paddingLeft.replaceAll('px', ''));
+			paragraph.style.paddingLeft = (existingPadding + 20).toString() + 'px';
+		} else {
+			paragraph.style.paddingLeft = '20px';
+		}
 	}
 }
 
-function decreaseIndent() {
+function decreaseIndent(editor: SunstarEditorElement) {
+	const selection = utils.getSelection(editor);
+	if (selection === null) return;
 
+	const focusNode = selection.focusNode;
+	if (focusNode === null) return;
+
+	const paragraph = utils.getParagraph(focusNode);
+	if (paragraph) {
+		if (paragraph.style.paddingLeft !== undefined && paragraph.style.paddingLeft !== null && paragraph.style.paddingLeft !== '') {
+			const existingPadding = Number.parseInt(paragraph.style.paddingLeft.replaceAll('px', ''));
+
+			if (existingPadding - 20 <= 0) {
+				paragraph.style.paddingLeft = '';
+			} else {
+				paragraph.style.paddingLeft = (existingPadding - 20).toString() + 'px';
+			}
+		}
+	}
 }
 
 function insertCharacterButonClick(ev: JQuery.MouseDownEvent) {
@@ -138,4 +163,7 @@ export {
 	toggleStrikethrough,
 	toggleSubscript,
 	toggleSuperscript,
+
+	increaseIndent,
+	decreaseIndent,
 };
