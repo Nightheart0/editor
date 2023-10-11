@@ -126,10 +126,10 @@ function initToolsToolbar($toolbar: JQuery<HTMLDivElement>) {
 	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="superscript" data-tooltip="Superscript (Ctrl+.)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M754.384-621.922v-64.231q0-12.615 8.115-20.731 8.115-8.115 20.731-8.115h84.076v-36.923H754.384v-28.077h112.153q12.615 0 20.73 8.116 8.116 8.115 8.116 20.731v35.384q0 12.615-8.116 20.731-8.115 8.115-20.73 8.115H782.46v36.923h112.923v28.077H754.384Zm-496.69 441.921 176.153-274.845-162.768-252.845h64.075l136.539 213.384h-.385l138.077-213.384h63.691L509.538-454.846l176.538 274.845H623L471.308-415.155h.385L320.769-180.001h-63.075Z"/></svg>
 	</button>`);
-	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="increase-indent" data-tooltip="Increase Indent">
+	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="increase-indent" data-tooltip="Increase Indent (Ctrl+[)">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M140.001-140.001v-45.384h679.998v45.384H140.001Zm320-158.846v-45.384h359.998v45.384H460.001Zm0-158.461v-45.384h359.998v45.384H460.001Zm0-158.846v-45.383h359.998v45.383H460.001Zm-320-158.461v-45.384h679.998v45.384H140.001Zm0 413.921v-240.228l122.153 118.691-122.153 121.537Z"/></svg>
 	</button>`);
-	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="decrease-indent" data-tooltip="Decrease Indent">
+	$toolsRow.append(`<button class="${styles.button} ${styles['button-grid']} ${styles['characters-popular']} ${styles['toolbar-tool']}" data-command="decrease-indent" data-tooltip="Decrease Indent (Ctrl+])">
 		<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48"><path d="M140.001-140.001v-45.384h679.998v45.384H140.001Zm320-158.846v-45.384h359.998v45.384H460.001Zm0-158.461v-45.384h359.998v45.384H460.001Zm0-158.846v-45.383h359.998v45.383H460.001Zm-320-158.461v-45.384h679.998v45.384H140.001Zm122.153 413.921L140.001-482.231l122.153-118.691v240.228Z"/></svg>
 	</button>`);
 }

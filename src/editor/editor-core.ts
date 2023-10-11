@@ -52,6 +52,16 @@ function initCore(editor: SunstarEditorElement, editorDiv: HTMLDivElement) {
 					richText.toggleSuperscript();
 
 					break;
+				case 'BracketLeft':
+					ev.preventDefault();
+					richText.increaseIndent(editor);
+
+					break;
+				case 'BracketRight':
+					ev.preventDefault();
+					richText.decreaseIndent(editor);
+
+					break;
 				default:
 					// Do nothing
 			}
