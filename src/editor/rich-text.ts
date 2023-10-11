@@ -20,6 +20,10 @@ function insertLinebreak() {
 	if (paragraph) {
 		const newParagraph = utils.createParagraph();
 
+		if (paragraph.style.paddingLeft && paragraph.style.paddingLeft !== '') {
+			newParagraph.style.paddingLeft = paragraph.style.paddingLeft;
+		}
+
 		paragraph.insertAdjacentElement('afterend', newParagraph);
 
 		const windowSelection = window.getSelection();
