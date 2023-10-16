@@ -36,6 +36,8 @@ function insertLinebreak() {
 }
 
 function toggleBold() {
+	document.execCommand('bold');
+	/*
 	const selection = window.getSelection();
 
 	if (selection === null) return;
@@ -46,9 +48,12 @@ function toggleBold() {
 		const applier = window.sunstarEditor.styleAppliers.bold;
 		applier.toggleSelection();
 	}
+	*/
 }
 
 function toggleItalic() {
+	document.execCommand('italic');
+	/*
 	const selection = window.getSelection();
 
 	if (selection === null) return;
@@ -59,9 +64,12 @@ function toggleItalic() {
 		const applier = window.sunstarEditor.styleAppliers.italic;
 		applier.toggleSelection();
 	}
+	*/
 }
 
 function toggleUnderline() {
+	document.execCommand('underline');
+	/*
 	const selection = window.getSelection();
 
 	if (selection === null) return;
@@ -72,9 +80,12 @@ function toggleUnderline() {
 		const applier = window.sunstarEditor.styleAppliers.underline;
 		applier.toggleSelection();
 	}
+	*/
 }
 
 function toggleStrikethrough() {
+	document.execCommand('strikeThrough');
+	/*
 	const selection = window.getSelection();
 
 	if (selection === null) return;
@@ -85,9 +96,12 @@ function toggleStrikethrough() {
 		const applier = window.sunstarEditor.styleAppliers.strikethrough;
 		applier.toggleSelection();
 	}
+	*/
 }
 
 function toggleSubscript() {
+	document.execCommand('subscript');
+	/*
 	const selection = window.getSelection();
 
 	if (selection === null) return;
@@ -98,9 +112,12 @@ function toggleSubscript() {
 		const applier = window.sunstarEditor.styleAppliers.subscript;
 		applier.toggleSelection();
 	}
+	*/
 }
 
 function toggleSuperscript() {
+	document.execCommand('superscript');
+	/*
 	const selection = window.getSelection();
 
 	if (selection === null) return;
@@ -111,6 +128,7 @@ function toggleSuperscript() {
 		const applier = window.sunstarEditor.styleAppliers.superscript;
 		applier.toggleSelection();
 	}
+	*/
 }
 
 function increaseIndent(editor: SunstarEditorElement) {
