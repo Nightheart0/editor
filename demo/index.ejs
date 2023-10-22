@@ -107,7 +107,7 @@
 				</div>
 			</div>
 
-			<sunstar-editor></sunstar-editor>
+			<sunstar-editor id="sunstar-editor-element"></sunstar-editor>
 			<div id="editor">
 				<div id="editor-loading">
 					<p>The editor is loading...</p>
@@ -127,7 +127,11 @@
 	<%= htmlWebpackPlugin.tags.bodyTags %>
 
 	<script async="false">
-		const editor = document.querySelector('#editor');
+		const editor = document.querySelector('#sunstar-editor-element');
+
+		editor.addEventListener('input', (ev) => {
+			console.log(ev.target.value);
+		});
 
 		const saveInfo = document.getElementById('save-info');
 		const autosaveUnavailable = document.getElementById('autosave-unavailable');

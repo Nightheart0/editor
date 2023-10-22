@@ -35,6 +35,11 @@ class SunstarEditorElement extends HTMLElement {
 		this.shadowRoot!.append(styleElement, this.editorDiv);
 
 		initCore(this, this.editorDiv);
+
+		this.editorDiv.addEventListener('input', (ev) => {
+			const event = new Event('input');
+			this.dispatchEvent(event);
+		});
 	}
 
 	get value(): string {
