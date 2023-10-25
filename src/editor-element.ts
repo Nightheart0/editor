@@ -1,6 +1,8 @@
 import * as ML from 'mathlive';
+import * as DOMPurify from 'dompurify';
 
 import { initCore } from '@/editor/editor-core';
+import * as mathField from '@/editor/math-field';
 
 // @ts-ignore
 import styles from '@/styles/sunstar-editor.css?raw';
@@ -84,7 +86,57 @@ class SunstarEditorElement extends HTMLElement {
 		return value;
 	}
 	set value(value: string) {
+		const cleanValue = DOMPurify.sanitize(value, { ADD_TAGS: ['math-field'] });
+		let valueWithParagraphs = '';
 
+		const lines = cleanValue.split('\n');
+		if (lines.length > 1) {
+			for (const line of lines) {
+				valueWithParagraphs += `<p>${line}</p>`;
+			}
+		} else {
+			valueWithParagraphs = cleanValue;
+		}
+
+		const parser = new DOMParser();
+		const document = parser.parseFromString(valueWithParagraphs, 'text/html');
+
+		const mathFields = document.body.querySelectorAll('math-field');
+		mathFields.forEach((mfe) => {
+			const span = document.createElement('span');
+			mathField.initializeSpan(span);
+
+			if (!mfe.hasAttribute('read-only')) {
+				mfe.setAttribute('read-only', '');
+			} else if (mfe.getAttribute('read-only') === 'false') {
+				mfe.setAttribute('read-only', '');
+			}
+
+			if (!mfe.hasAttribute('contenteditable')) {
+				mfe.setAttribute('contenteditable', 'true');
+			} else if (mfe.getAttribute('contenteditable') === 'false') {
+				mfe.setAttribute('contenteditable', 'true');
+			}
+
+			mfe.insertAdjacentElement('beforebegin', span);
+
+			//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+			span.appendChild(mfe);
+			//span.appendChild(document.createTextNode(new DOMParser().parseFromString('&nbsp;', 'text/html').documentElement.textContent as string));
+		});
+
+		this.editorDiv.innerHTML = document.body.innerHTML;
+
+		const mathFields2 = this.editorDiv.querySelectorAll('span[data-mathfield="true"]');
+		for (let i = 0; i < mathFields2.length; i++) {
+			const mathFieldSpan = mathFields2[i] as HTMLSpanElement;
+			const mathFieldElement = mathFieldSpan.querySelector('math-field');
+
+			if (mathFieldElement === null) continue;
+
+			mathField.initializeLaTeXEditor(mathFieldSpan, mathFieldElement as ML.MathfieldElement);
+			mathField.addMathFieldEventListeners(this, $(this.editorDiv), mathFieldSpan, mathFieldElement as ML.MathfieldElement);
+		}
 	}
 
 	get length(): number {
