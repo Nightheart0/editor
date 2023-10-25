@@ -108,11 +108,6 @@
 			</div>
 
 			<sunstar-editor id="sunstar-editor-element"></sunstar-editor>
-			<div id="editor">
-				<div id="editor-loading">
-					<p>The editor is loading...</p>
-				</div>
-			</div>
 
 			<p id="save-info" style="display: none;">Everything typed will be saved automatically.</p>
 			<p id="autosave-unavailable" style="display: none;"><span style="color: red;">Autosave isn't available because localStorage cannot be accessed.</span></p>
@@ -128,10 +123,6 @@
 
 	<script async="false">
 		const editor = document.querySelector('#sunstar-editor-element');
-
-		editor.addEventListener('input', (ev) => {
-			console.log(ev.target.value);
-		});
 
 		const saveInfo = document.getElementById('save-info');
 		const autosaveUnavailable = document.getElementById('autosave-unavailable');
@@ -153,39 +144,25 @@
 				autosaveUnavailable.style = 'display: block;';
 			}
 
-			const options = {};
-
 			if (isSaveSupported) {
-				options.onInput = (contents) => {
+				editor.addEventListener('input', (ev) => {
 					try {
-						localStorage.setItem('editor-save', contents);
+						localStorage.setItem('editor-save', ev.target.value);
 						autosaveFailed.style = 'display: none;';
 					} catch (e) {
 						autosaveFailed.style = 'display: block;';
 					}
-				};
+				});
+				
+				if (editorSave) {
+					setTimeout(() => {
+						editor.value = editorSave;
+					}, 500);
+				}
 			}
-			if (editorSave) {
-				options.initialValue = editorSave;
-			}
-
-			//initSunstarEditor(editor, options);
 		}
 
-		/*
-		const interval = setInterval(() => {
-			if (window.initSunstarEditor) {
-				clearInterval(interval);
-
-				const editorLoading = document.getElementById('editor-loading');
-				if (editorLoading) editorLoading.remove();
-
-				initializeEditor();
-			} else {
-				console.log('Waiting for the bundle to load...')
-			}
-		}, 1000);
-		*/
+		initializeEditor();
 	</script>
 </body>
 </html>
