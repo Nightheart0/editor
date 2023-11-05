@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import * as ML from 'mathlive';
 import * as DOMPurify from 'dompurify';
 
