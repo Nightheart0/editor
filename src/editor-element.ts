@@ -8,6 +8,13 @@ import * as mathField from '@/editor/math-field';
 // @ts-ignore
 import styles from '@/styles/sunstar-editor.css?raw';
 
+const elementAttributes: Record<
+	'fontsDirectory',
+	string
+> = {
+	fontsDirectory: 'fonts-directory', // MathLive fonts directory
+};
+
 /**
  * The `SunstarEditorElement` class is the DOM element responsible for displaying the editor.
  * 
@@ -23,6 +30,11 @@ class SunstarEditorElement extends HTMLElement {
 
 	constructor() {
 		super();
+
+		if (this.getAttribute(elementAttributes.fontsDirectory) !== null) {
+			this._fontsDirectory = this.getAttribute(elementAttributes.fontsDirectory);
+			ML.MathfieldElement.fontsDirectory = this._fontsDirectory;
+		}
 
 		this.attachShadow({ mode: 'open', delegatesFocus: true });
 
@@ -146,6 +158,48 @@ class SunstarEditorElement extends HTMLElement {
 
 	get lengthWithoutWhitespace(): number {
 		return 0;
+	}
+
+	/** @internal */
+	private _fontsDirectory: string | null = './fonts';
+
+	/**
+	 * MathLive fonts directory
+	 */
+	get fontsDirectory(): string | null {
+		return this._fontsDirectory;
+	}
+	set fontsDirectory(value: string | null) {
+		if (value !== this._fontsDirectory) {
+			this._fontsDirectory = value;
+			ML.MathfieldElement.fontsDirectory = this._fontsDirectory;
+		}
+	}
+
+	/**
+	* Custom elements lifecycle hooks
+	* @internal
+	*/
+	static get observedAttributes(): readonly string[] {
+		return [
+			...Object.values(elementAttributes),
+		];
+	}
+
+	/**
+	* Custom elements lifecycle hooks
+	* @internal
+	*/
+	attributeChangedCallback(name: string, oldValue: unknown, newValue: unknown): void {
+		if (oldValue === newValue) return;
+
+		const hasValue: boolean = newValue !== null;
+
+		switch (name) {
+			case 'fonts-directory':
+				if (typeof newValue === 'string') this._fontsDirectory = newValue;
+			default:
+		}
 	}
 }
 
