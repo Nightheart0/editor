@@ -109,6 +109,9 @@
 
 			<sunstar-editor id="sunstar-editor-element"></sunstar-editor>
 
+			<button id="save-to-file">Save to file</button>
+			<button id="load-from-file">Load from file</button>
+
 			<p id="save-info" style="display: none;">Everything typed will be saved automatically.</p>
 			<p id="autosave-unavailable" style="display: none;"><span style="color: red;">Autosave isn't available because localStorage cannot be accessed.</span></p>
 			<p id="autosave-failed" style="display: none;"><span style="color: red;">Couldn't save your work. Maybe localStorage is full?</span></p>
@@ -160,6 +163,33 @@
 					}, 500);
 				}
 			}
+
+			/** @type {HTMLButtonElement} */
+			const saveToFile = document.getElementById('save-to-file');
+			/** @type {HTMLButtonElement} */
+			const loadFromFile = document.getElementById('load-from-file');
+
+			saveToFile.addEventListener('click', (ev) => {
+
+			});
+
+			loadFromFile.addEventListener('click', async (ev) => {
+				if (!window.showOpenFilePicker) {
+					alert('Your browser does not support the File System Access API. This is not a problem with the text editor but with your browser. File a bug report on your browser\'s issue tracker to get this feature implemented.')
+					return;
+				}
+
+				try {
+					const [fileHandle] = await window.showOpenFilePicker({
+						multiple: false,
+					});
+					/** @type {File} */
+					const file = await fileHandle.getFile();
+					const text = await file.text();
+
+					editor.value = text;
+				} catch {}
+			});
 		}
 
 		initializeEditor();
