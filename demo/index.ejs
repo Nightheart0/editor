@@ -170,7 +170,23 @@
 			const loadFromFile = document.getElementById('load-from-file');
 
 			saveToFile.addEventListener('click', (ev) => {
+				/** @type {string} */
+				const text = editor.value;
+				const blob = new Blob([text], {
+					type: 'text/plain;charset=utf-8',
+				});
 
+				const link = document.createElement('a');
+				link.style.visibility = 'hidden';
+				link.href = URL.createObjectURL(blob);
+				link.download = 'sunstar-editor-save.txt';
+
+				link.click();
+				URL.revokeObjectURL(link.href);
+
+				delete link;
+				delete blob;
+				delete text;
 			});
 
 			loadFromFile.addEventListener('click', async (ev) => {
