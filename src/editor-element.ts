@@ -4,6 +4,7 @@ import * as DOMPurify from 'dompurify';
 
 import { initCore } from '@/editor/editor-core';
 import * as mathField from '@/editor/math-field';
+import * as utils from '@/utils/utils';
 
 // @ts-ignore
 import styles from '@/styles/sunstar-editor.css?raw';
@@ -86,13 +87,13 @@ class SunstarEditorElement extends HTMLElement {
 							value += element.outerHTML;
 						}
 					} else if (pChild.nodeType === Node.TEXT_NODE) {
-						value += pChild.textContent;
+						if (pChild.textContent !== null) value += utils.escapeHtml(pChild.textContent);
 					}
 				}
 	
 				value += '\n';
 			} else if (child.nodeType === Node.TEXT_NODE) {
-				value += child.textContent;
+				if (child.textContent !== null) value += utils.escapeHtml(child.textContent);
 			}
 		});
 
