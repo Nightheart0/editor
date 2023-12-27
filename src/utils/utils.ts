@@ -293,6 +293,16 @@ function getSelection(editor?: SunstarEditorElement): Selection | null {
 	}
 }
 
+/**
+ * https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
+ * 
+ * @param unsafe The unsafe HTML
+ * @returns HTML-escaped string
+ */
+function escapeHtml(unsafe: string) {
+	return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+}
+
 export {
 	insertAtCursor,
 	addClassToSelection,
@@ -304,4 +314,6 @@ export {
 	createParagraph,
 
 	getSelection,
+
+	escapeHtml,
 };
